@@ -6,7 +6,8 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 @Component({
   selector: 'app-product-list',
   imports: [CurrencyPipe,CommonModule],
-  templateUrl: './product-list.html',
+  templateUrl: './product-list-table.html',
+   //templateUrl: './product-list-.html',
   styleUrl: './product-list.css',
 })
 export class ProductList implements OnInit {
