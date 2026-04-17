@@ -22,18 +22,13 @@ export class ProductList implements OnInit {
 
   ngOnInit(): void { 
     this.listProducts();
-    // check if "id" parameter is available in the route and update currentCategoryId accordingly
-    const hasCategoryId: boolean = this.router.snapshot.paramMap.has('id');
-    if (hasCategoryId) {
-      this.currentCategoryId = +this.router.snapshot.paramMap.get('id')!;
-    }
-    else {
-      this.currentCategoryId = 1;
-    }
+    this.router.paramMap.subscribe(params => {
 
-    // Subscribe to the paramMap observable to react to changes in the route parameters
-    this.router.paramMap.subscribe(() => {
-      this.listProducts();
+    const id = params.get('id');
+
+    this.currentCategoryId = id ? +id : 1;
+
+    this.listProducts(); // always correct
     });
   }
   // Method to fetch the list of products from the service
