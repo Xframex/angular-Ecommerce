@@ -23,9 +23,10 @@ export class ProductList implements OnInit {
   ngOnInit(): void { 
     this.listProducts();
     this.router.paramMap.subscribe(params => {
-
+    
+    
     const id = params.get('id');
-
+    // if id is not null, convert it to a number and assign to currentCategoryId
     this.currentCategoryId = id ? +id : 1;
 
     this.listProducts(); // always correct
