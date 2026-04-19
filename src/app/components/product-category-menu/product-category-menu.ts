@@ -11,7 +11,7 @@ import { ProductService } from '../../services/product.service';
 export class ProductCategoryMenu {
 
   // define properties and methods for the product category menu component here
-  productCategories: ProductCategory[];
+  productCategories: ProductCategory[] = [];
 
   // inject the product category service here to fetch the categories from the backend
   constructor(private productService: ProductService) {}
