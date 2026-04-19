@@ -5,7 +5,7 @@ import { ProductCategoryMenu } from "./components/product-category-menu/product-
 
 @Component({
   selector: 'app-root',
-  imports: [ProductList, RouterOutlet, RouterLinkWithHref, RouterLinkActive, ProductCategoryMenu],
+  imports: [RouterOutlet, ProductCategoryMenu],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

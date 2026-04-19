@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { ProductCategory } from '../../common/product-category';
 import { ProductService } from '../../services/product.service';
+import { CommonModule } from '@angular/common';
+import { RouterLinkWithHref, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-product-category-menu',
-  imports: [],
+  imports: [CommonModule, RouterLinkWithHref, RouterLinkActive],
   templateUrl: './product-category-menu.html',
   styleUrl: './product-category-menu.css',
 })
