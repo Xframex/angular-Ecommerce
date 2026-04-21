@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './search.css',
 })
 export class Search {
+myInput: any;
 
   constructor(private router: Router) {}
 
