@@ -4,10 +4,12 @@ import { map, Observable } from 'rxjs';
 import { Product } from '../common/product';
 import { ProductCategory } from '../common/product-category';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
+ 
  
 
 
@@ -21,8 +23,7 @@ export class ProductService {
     // build URL based on category id
     const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
 
-    return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(map(response => response._embedded.products)
-    );
+    return this.getProducts(searchUrl);
   }
 
   // method to fetch the product categories from the backend and return an Observable of ProductCategory array
@@ -32,7 +33,24 @@ export class ProductService {
     );
   } 
 
+   // method to search for products based on the keyword and return an Observable of Product array
+   searchProducts(theKeyword: string) : Observable<Product[]> {
+    // build URL based on keyword
+    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}`;
+
+    return this.getProducts(searchUrl);
+    
+  }
+  getProducts(searchUrl: string): Observable<Product[]> {
+    return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(
+      map(response => response._embedded.products)
+    );
+  }
+
 }
+
+
+
 // define interfaces to hold JSON response for products and product categories
 interface GetResponseProducts {
   _embedded: {
@@ -45,6 +63,7 @@ interface GetResponseProductCategory {
   _embedded: {
     productCategory: ProductCategory[];
   }
+
   
 }
 
