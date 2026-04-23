@@ -1,1 +1,22 @@
-<p>product-details works!</p>
+<div class="detail-section">
+
+  <!-- Back button -->
+  <a routerLink="/products" class="btn btn-secondary mb-3">Back to Products</a>
+
+  <div class="detail-content">
+    <div class="detail-image">
+      <img
+        [src]="product.imageUrl"
+        [alt]="product.name"
+      />
+    </div>
+
+    <div class="detail-info">
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.description }}</p>
+      <p><strong>Price: </strong>{{ product.unitPrice | currency }}</p>
+      <button class="btn btn-primary">Add to Cart</button>
+    </div>
+  </div>
+
+</div>

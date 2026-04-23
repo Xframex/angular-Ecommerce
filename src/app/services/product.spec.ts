@@ -4,7 +4,9 @@ import 'jasmine';
 
 describe('Product', () => {
   it('should create an instance', () => {
+
     const product = new Product(
+      1,             // id
       'SKU001',      // sku
       'Test Product', // name
       'Test Description',  // description
