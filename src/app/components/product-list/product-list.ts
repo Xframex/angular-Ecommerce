@@ -11,9 +11,18 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
   styleUrl: './product-list.css',
 })
 export class ProductList implements OnInit {
-  products!: Product[];
+  products: Product[] = [];
   currentCategoryId: number = 1;
   searchMode: boolean = false;
+
+  // new properties for pagination
+  thePageNumber: number = 1;
+  thePageSize: number = 5;
+  theTotalElements: number = 0;
+  previousCategoryId: number = 1;
+  
+
+
 
   // Inject the ProductService
   constructor(
@@ -74,10 +83,25 @@ export class ProductList implements OnInit {
       this.currentCategoryId = 1;
     }
 
+    //check if we have a different category than previous one
+    // Note: Angular will reuse a component if it is currently being viewed
+    // this is linked lis DS to the fact that we are using the same component for different categories.
+    if (this.previousCategoryId != this.currentCategoryId) {
+      this.thePageNumber = 1;
+    }
+    this.previousCategoryId = this.currentCategoryId;
+     //debug log to show current category id and page number
+    console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
+
+
+
     // now get the products for the given category id
-    this.productService.getProductList(this.currentCategoryId).subscribe(
+    this.productService.getProductListPaginate(this.thePageNumber - 1, this.thePageSize, this.currentCategoryId).subscribe(
       data => {
-        this.products = data;
+        this.products = data._embedded.products;  
+        this.thePageNumber = data.page.number + 1; // because Spring Data REST page numbers are 0-based
+        this.thePageSize = data.page.size;
+        this.theTotalElements = data.page.totalElements;
       }
     )    
   }
