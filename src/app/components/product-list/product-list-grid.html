@@ -2,9 +2,11 @@
   <div class="section__content section__content--p30">
     <div class="container-fluid">
       <div class="row">
-
         <!-- if no products found -->
-        <div *ngIf="!products || products.length === 0" class="col-12 text-center">
+        <div
+          *ngIf="!products || products.length === 0"
+          class="col-12 text-center"
+        >
           <p>No products found.</p>
         </div>
 
@@ -12,7 +14,6 @@
         <div class="col-sm-6 col-lg-3" *ngFor="let product of products">
           <div class="card text-center">
             <div class="card-body">
-
               <a [routerLink]="['/products', product.id]">
                 <img
                   [src]="product.imageUrl"
@@ -25,11 +26,29 @@
               <p class="card-text">{{ product.unitPrice | currency }}</p>
 
               <button class="btn btn-primary">Add to Cart</button>
-
             </div>
           </div>
         </div>
+      </div>
+      <!-- pagination controls -->
+      <div class="footer-pagination">
+        <div class="row">
+          <div class="col-md-6"></div>
 
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-9" style="padding-left: 30%">
+                <ngb-pagination
+                  [(page)]="thePageNumber"
+                  [pageSize]="thePageSize"
+                  [collectionSize]="theTotalElements"
+                  (pageChange)="listProducts()"
+                >
+                </ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
