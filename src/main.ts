@@ -1,9 +1,13 @@
+/// <reference types="@angular/localize" />
+
 import { bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
 import { provideHttpClient } from '@angular/common/http';
 import { Routes, provideRouter } from '@angular/router';
 import { ProductList } from './app/components/product-list/product-list';
 import { ProductDetails } from './app/components/product-details/product-details';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 // Define routes
 const routes: Routes = [
@@ -18,7 +22,9 @@ const routes: Routes = [
 
 bootstrapApplication(App, {
   providers: [
+    NgbModule,
     provideHttpClient(),
     provideRouter(routes) // Provide the router with the defined routes
   ]
+  
 });
