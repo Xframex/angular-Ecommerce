@@ -3,10 +3,11 @@ import { Product } from '../../common/product';
 import { ProductService } from '../../services/product.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { NgbPagination } from "@ng-bootstrap/ng-bootstrap";
+
 
 @Component({
-  selector: 'app-product-list',
-  imports: [CurrencyPipe, CommonModule, RouterLink],
+  imports: [CurrencyPipe, CommonModule, RouterLink, NgbPagination],
   templateUrl: './product-list-grid.html',
   styleUrl: './product-list.css',
 })
