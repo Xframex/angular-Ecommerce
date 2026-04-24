@@ -27,6 +27,17 @@ export class ProductService {
     return this.getProducts(searchUrl);
   }
 
+  // method to fetch the products from the backend based on category id, page and size and return an Observable of Product array
+  getProductListPaginate(thePage: number, 
+                         thePageSize: number, 
+                         theCategoryId: number): Observable<GetResponseProducts>{
+    // build URL based on category id, page and size
+    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}&page=${thePage}&size=${thePageSize}`;
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
+                         }
+
+
+
   // method to fetch the product categories from the backend and return an Observable of ProductCategory array
    getProductCategories(): Observable<ProductCategory[]> {
     return this.httpClient.get<GetResponseProductCategory>(`http://localhost:8080/api/product-category`).pipe(
@@ -64,6 +75,12 @@ interface GetResponseProducts {
   _embedded: {
     products: Product[];
   }
+  // pagination information  page: {
+   page: number;
+   size: number;
+   totalElements: number;
+   totalPages: number;
+
   
 }
 // interface to hold JSON response for product categories
