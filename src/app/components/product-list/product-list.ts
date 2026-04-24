@@ -20,11 +20,14 @@ export class ProductList implements OnInit {
   currentCategoryId: number = 1;
   searchMode: boolean = false;
 
+
   // new properties for pagination
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
   previousCategoryId: number = 1;
+  previousKeyword: string = "";
+  
   
 
 
@@ -66,18 +69,39 @@ export class ProductList implements OnInit {
 
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
-    // now search for the products using keyword
-    this.productService.searchProducts(theKeyword).subscribe(
-      data => {
-        this.products = data;
-      }
-    )
+    //if we have different keyword than previous
+    //the set the page to 1
+    if (this.previousKeyword ! = theKeyword){
+      this.thePageNumber = 1; 
+    }
+    this.previousKeyword = theKeyword;
+    console.log(`keyword=${theKeyword},thePageNumber=${this.thePageNumber}`);
+
+
+    //  search for the products using keyword 
+    this.productService.searchProductsPaginate(this.thePageNumber - 1, 
+                                             this.thePageSize,theKeyword).subscribe(
+                                               this.processResult()
+                                              )
+    
   }
+  // Method to fetch the list of products from the service by using pagination
+  processResult(){ 
+    return ( data: any) => {
+      this.products = data._embedded.products;  
+      this.thePageNumber = data.page.number + 1; // because Spring Data REST page numbers are 0-based
+      this.thePageSize = data.page.size;
+      this.theTotalElements = data.page.totalElements;
+    }
+  }
+
+  
 
  updatePageSize(arg0: string) {
     this.thePageSize = +arg0;
     this.thePageNumber = 1;
     this.listProducts();
+    
   }
 
   handleListProducts() {
