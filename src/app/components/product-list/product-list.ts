@@ -4,21 +4,25 @@ import { ProductService } from '../../services/product.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgbPagination } from "@ng-bootstrap/ng-bootstrap";
+import { FormsModule } from '@angular/forms';
+
 
 
 @Component({
-  imports: [CurrencyPipe, CommonModule, RouterLink, NgbPagination],
+  imports: [CurrencyPipe, CommonModule, RouterLink, NgbPagination, FormsModule],
   templateUrl: './product-list-grid.html',
   styleUrl: './product-list.css',
 })
 export class ProductList implements OnInit {
+
+
   products: Product[] = [];
   currentCategoryId: number = 1;
   searchMode: boolean = false;
 
   // new properties for pagination
   thePageNumber: number = 1;
-  thePageSize: number = 10;
+  thePageSize: number = 5;
   theTotalElements: number = 0;
   previousCategoryId: number = 1;
   
@@ -68,6 +72,12 @@ export class ProductList implements OnInit {
         this.products = data;
       }
     )
+  }
+
+ updatePageSize(arg0: string) {
+    this.thePageSize = +arg0;
+    this.thePageNumber = 1;
+    this.listProducts();
   }
 
   handleListProducts() {
