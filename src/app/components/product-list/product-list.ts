@@ -6,7 +6,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { CartItem } from '../../common/cart-item';
-import { Cart } from '../../services/cart';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   imports: [CurrencyPipe, CommonModule, RouterLink, NgbPagination, FormsModule],
@@ -29,7 +29,8 @@ export class ProductList implements OnInit {
   // Inject the ProductService
   constructor(
     private productService: ProductService,
-    private cartService: Cart,
+    @Inject
+    (CartService) private cartService: CartService,
     private route: ActivatedRoute,
     
   ) {}
