@@ -5,6 +5,8 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { CartItem } from '../../common/cart-item';
+import { Cart } from '../../services/cart';
 
 @Component({
   imports: [CurrencyPipe, CommonModule, RouterLink, NgbPagination, FormsModule],
@@ -23,10 +25,13 @@ export class ProductList implements OnInit {
   previousCategoryId: number = 1;
   previousKeyword: string = '';
 
+
   // Inject the ProductService
   constructor(
     private productService: ProductService,
+    private cartService: Cart,
     private route: ActivatedRoute,
+    
   ) {}
 
   ngOnInit(): void {
@@ -129,6 +134,8 @@ export class ProductList implements OnInit {
   // Method to add a product to the cart
   addToCart(product: Product) {
     console.log(`Adding to cart: ${product.name}, ${product.unitPrice}`);
-    
+    const theCartItem = new CartItem(product);
+    this.cartService.addToCart(theCartItem);
+
   }
 }
