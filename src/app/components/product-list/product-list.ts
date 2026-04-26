@@ -129,5 +129,6 @@ export class ProductList implements OnInit {
   // Method to add a product to the cart
   addToCart(product: Product) {
     console.log(`Adding to cart: ${product.name}, ${product.unitPrice}`);
+    
   }
 }
