@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-cart-status',
-  imports: [],
+  imports: [CurrencyPipe],
   templateUrl: './cart-status.html',
   styleUrl: './cart-status.css',
 })
