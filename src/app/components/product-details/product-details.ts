@@ -3,6 +3,8 @@ import { Product } from '../../common/product';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
+import { CartItem } from '../../common/cart-item';
+import { CartService } from '../../services/cart.service';
 
 
 @Component({
@@ -14,10 +16,12 @@ import { CurrencyPipe } from '@angular/common';
 export class ProductDetails {
 
 
+
   product!: Product;
 
   constructor(private productService: ProductService,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private cartService: CartService
   ) {}
 
   ngOnInit() {
@@ -38,6 +42,12 @@ export class ProductDetails {
 
   goBack() {
     window.history.back();
+  }
+
+  addToCart() {
+    console.log(`Adding to cart: ${this.product.name}, ${this.product.unitPrice}`);
+    const theCartItem = new CartItem(this.product);
+    this.cartService.addToCart(theCartItem);
   }
 
 
