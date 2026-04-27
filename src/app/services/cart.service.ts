@@ -6,6 +6,8 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class CartService {
+  
+  
   constructor() {}
 
   cartItems: CartItem[] = [];
