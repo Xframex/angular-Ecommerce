@@ -1,0 +1,291 @@
+/* cart-details.component.css */
+
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-content {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.section-content-p30 {
+  padding: 30px;
+}
+
+.container-fluid {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Modern Card Style Table */
+.table {
+  width: 100%;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead tr {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+.table th {
+  padding: 20px 24px;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+}
+
+.table th:first-child {
+  border-top-left-radius: 24px;
+}
+
+.table th:last-child {
+  border-top-right-radius: 24px;
+}
+
+/* Table Rows */
+.table tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.table tbody tr:hover {
+  background: #f8fafc;
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.table td {
+  padding: 24px;
+  vertical-align: middle;
+  border-bottom: 1px solid #eef2f6;
+  background: white;
+}
+
+/* Product Image */
+.table td:first-child {
+  text-align: center;
+}
+
+.img-responsive {
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  object-fit: cover;
+  width: 150px;
+  height: 150px;
+}
+
+.img-responsive:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* Product Detail */
+.table td:nth-child(2) p:first-child {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+
+.table td:nth-child(2) p:last-child {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #10b981;
+  margin: 0;
+  display: inline-block;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Quantity Section */
+.items {
+  background: #f1f5f9;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  display: inline-block;
+  width: auto;
+}
+
+.items label {
+  font-weight: 600;
+  color: #475569;
+  margin-right: 8px;
+  font-size: 0.9rem;
+}
+
+.items {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 1.1rem;
+}
+
+.mt-2 {
+  margin-top: 16px;
+}
+
+.mt-2 {
+  font-weight: 600;
+  color: #3b82f6;
+  font-size: 1.1rem;
+  background: #eff6ff;
+  padding: 10px 16px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+/* Footer Row (Cart Summary) */
+.table tfoot tr {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.table td[colspan="2"] {
+  border-bottom: none;
+}
+
+.table tfoot td:last-child {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: white;
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24px;
+  padding: 24px;
+}
+
+.table tfoot td:last-child p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+.table tfoot td:last-child p:first-child {
+  font-size: 1.25rem;
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.table tfoot td:last-child p:nth-child(2) {
+  color: #34d399;
+}
+
+.table tfoot td:last-child p:last-child {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fbbf24;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section-content-p30 {
+    padding: 16px;
+  }
+
+  .table {
+    border-radius: 16px;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tbody tr {
+    display: block;
+    margin-bottom: 20px;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .table tbody tr:hover {
+    transform: none;
+  }
+
+  .table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+    padding: 16px;
+    border-bottom: 1px solid #eef2f6;
+  }
+
+  .table td:before {
+    content: attr(data-label);
+    font-weight: 700;
+    text-align: left;
+    color: #475569;
+  }
+
+  .table td:first-child {
+    justify-content: center;
+  }
+
+  .img-responsive {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Smooth Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table tbody tr {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.table tbody tr:nth-child(2) { animation-delay: 0.1s; }
+.table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+.table tbody tr:nth-child(4) { animation-delay: 0.2s; }
+.table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46a0 100%);
+}
