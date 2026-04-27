@@ -289,3 +289,162 @@
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #5a67d8 0%, #6b46a0 100%);
 }
+
+.empty-cart-message {
+  background: linear-gradient(145deg, #fef9e8 0%, #fef3d6 100%);
+  color: #b45309;
+  padding: 40px 24px;
+  border-radius: 24px;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 20px 0;
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.empty-cart-message::after {
+  content: '🛍️';
+  position: absolute;
+  font-size: 80px;
+  opacity: 0.05;
+  bottom: -15px;
+  right: -15px;
+  transform: rotate(-15deg);
+  pointer-events: none;
+}
+
+.empty-cart-message::before {
+  content: '🛍️';
+  position: absolute;
+  font-size: 80px;
+  opacity: 0.05;
+  top: -15px;
+  left: -15px;
+  transform: rotate(15deg);
+  pointer-events: none;
+}
+
+/* Quantity Controls - Modern Design */
+.items {
+  background: transparent;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.items label {
+  display: block;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Quantity Container */
+.quantity-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 60px;
+  width: fit-content;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.quantity-container:hover {
+  border-color: #cbd5e1;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Quantity Button Base */
+.btn-quantity {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  color: #1e293b;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.btn-quantity i {
+  font-size: 14px;
+}
+
+/* Plus Button */
+.btn-plus {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+}
+
+.btn-plus:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+/* Minus Button */
+.btn-minus {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+}
+
+.btn-minus:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+/* Disabled state for minus button when quantity is 1 */
+.btn-minus:disabled {
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-minus:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Quantity Number Display */
+.quantity-number {
+  min-width: 40px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  background: white;
+  padding: 4px 0;
+  border-radius: 12px;
+  font-family: 'Inter', monospace;
+}
+
+/* Remove default button styles */
+.btn-quantity:active {
+  transform: scale(0.95);
+}
+
+.btn-quantity:focus {
+  outline: none;
+  ring: 2px solid #3b82f6;
+}
+
