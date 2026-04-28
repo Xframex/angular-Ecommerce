@@ -513,8 +513,11 @@ input.au-input.au-input-xl{
 .header-mobile-2.header-mobile .hamburger .hamburger-box .hamburger-inner::after{
     background:#fff
 }
+
+
 .main-content.page-m{
-    padding:10% 15%!important
+    padding: 10% 30% 10% 5% ;  
+    
 }
 
 /* 
