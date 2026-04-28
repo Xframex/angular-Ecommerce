@@ -9,6 +9,7 @@ import { ProductDetails } from './app/components/product-details/product-details
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartDetails } from './app/components/cart-details/cart-details';
 import { Checkout } from './app/components/checkout/checkout';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 // Define routes
@@ -28,7 +29,8 @@ bootstrapApplication(App, {
   providers: [
     NgbModule,
     provideHttpClient(),
-    provideRouter(routes) // Provide the router with the defined routes
+    provideRouter(routes), // Provide the router with the defined routes
+    ReactiveFormsModule
   ]
   
 });

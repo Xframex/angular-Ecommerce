@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CartItem } from '../../common/cart-item';
 import { CartService } from '../../services/cart.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-cart-details',
-  imports: [CurrencyPipe,CommonModule, ],
+  imports: [CurrencyPipe, CommonModule, RouterLink],
   templateUrl: './cart-details.html',
   styleUrl: './cart-details.css',
 })
