@@ -4,10 +4,12 @@ import { ProductList } from "./components/product-list/product-list";
 import { ProductCategoryMenu } from "./components/product-category-menu/product-category-menu";
 import { Search } from "./components/search/search";
 import { CartStatus } from "./components/cart-status/cart-status";
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ProductCategoryMenu, Search, CartStatus],
+  imports: [RouterOutlet, ProductCategoryMenu, Search, CartStatus, ReactiveFormsModule,],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
