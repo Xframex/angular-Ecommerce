@@ -4,9 +4,8 @@
       <div class="checkout-card">
         <h2 class="checkout-title">🛒 Checkout</h2>
 
-        <form [formGroup]="checkoutFormGroup"
-        >
-          <!-- Customer Info -->
+        <form [formGroup]="checkoutFormGroup">
+          <!-- CUSTOMER -->
           <div formGroupName="customer" class="form-section">
             <h4 class="section-title">Customer Information</h4>
 
@@ -14,20 +13,18 @@
               <div class="form-group">
                 <label>First Name</label>
                 <input
-                  type="text"
                   class="form-control"
                   formControlName="firstName"
-                  placeholder="Enter your first name"
+                  placeholder="John"
                 />
               </div>
 
               <div class="form-group">
                 <label>Last Name</label>
                 <input
-                  type="text"
                   class="form-control"
                   formControlName="lastName"
-                  placeholder="Enter your last name"
+                  placeholder="Doe"
                 />
               </div>
             </div>
@@ -35,7 +32,6 @@
             <div class="form-group">
               <label>Email</label>
               <input
-                type="email"
                 class="form-control"
                 formControlName="email"
                 placeholder="example@email.com"
@@ -43,126 +39,159 @@
             </div>
           </div>
 
-          <!-- Shipping Address -->
+          <!-- SHIPPING -->
           <div formGroupName="shippingAddress" class="form-section">
             <h4 class="section-title">Shipping Address</h4>
+
             <div class="form-row">
-              <div class="form-group">
+              <div class="form-group full">
                 <label>Street</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="street"
-                  placeholder="123 Main St"
-                />
+                <input class="form-control" formControlName="street" />
               </div>
 
               <div class="form-group">
-                    <label>City</label>
-                    <input
-                    type="text"
-                    class="form-control"
-                    formControlName="city"
-                    placeholder="Anytown"
-                    />
+                <label>City</label>
+                <input class="form-control" formControlName="city" />
               </div>
 
               <div class="form-group">
-                    <label>State</label>
-                    <input
-                    type="text"
-                    class="form-control"
-                    formControlName="state"
-                    placeholder="CA"
-                    />
+                <label>State</label>
+                <input class="form-control" formControlName="state" />
               </div>
 
               <div class="form-group">
-                    <label>Country</label>
-                    <input
-                    type="text"
-                    class="form-control"
-                    formControlName="country"
-                    placeholder="United States"
-                    />
-              </div>    
+                <label>Country</label>
+                <input class="form-control" formControlName="country" />
+              </div>
 
               <div class="form-group">
-                    <label>Zip Code</label>
-                    <input
-                    type="text"
-                    class="form-control"
-                    formControlName="zipCode"
-                    placeholder="12345"
-                    />
+                <label>Zip</label>
+                <input class="form-control" formControlName="zipCode" />
               </div>
             </div>
           </div>
 
-        <!--add checkbox to copy shipping address -->
-        <div class="form-group">
-            <input type="checkbox" id="copyAddress" (change)="copyShippingToBilling($event)">
-            <label for="copyAddress">Same as Shipping Address</label>
-        </div>
+          <!-- CHECKBOX -->
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="sameAsShipping"
+              (change)="copyShippingToBilling($event)"
+            />
+            <label for="sameAsShipping">
+              Billing address same as shipping
+            </label>
+          </div>
 
-        <!-- billing Addresse -->
-            <div formGroupName="billingAddress" class="form-section">
-                <h4 class="section-title">Billing Address</h4>
-                <div class="form-row">
+          <!-- BILLING -->
+          <div formGroupName="billingAddress" class="form-section">
+            <h4 class="section-title">Billing Address</h4>
+
+            <div class="form-row">
+              <div class="form-group full">
+                <label>Street</label>
+                <input class="form-control" formControlName="street" />
+              </div>
+
+              <div class="form-group">
+                <label>City</label>
+                <input class="form-control" formControlName="city" />
+              </div>
+
+              <div class="form-group">
+                <label>State</label>
+                <input class="form-control" formControlName="state" />
+              </div>
+
+              <div class="form-group">
+                <label>Country</label>
+                <input class="form-control" formControlName="country" />
+              </div>
+
+              <div class="form-group">
+                <label>Zip</label>
+                <input class="form-control" formControlName="zipCode" />
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD -->
+          <div class="form-section">
+            <h4 class="section-title">Payment</h4>
+
+            <div class="form-group">
+              <label>Card Type</label>
+
+              <div class="select-wrapper">
+                <select
+                  class="form-control custom-select"
+                  formControlName="cardType"
+                >
+                  <option value="" disabled selected>Select card type</option>
+                  <option value="Visa">Visa</option>
+                  <option value="Mastercard">Mastercard</option>
+                  <option value="American Express">American Express</option>
+                  <option value="Discover">Discover</option>
+                  <option value="JCB">JCB</option>
+                  <option value="Diners Club">Diners Club</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Name on Card</label>
+                <input class="form-control" formControlName="nameOnCard" />
+              </div>
+
+              <div class="form-group">
+                <label>Card Number</label>
+                <input class="form-control" formControlName="cardNumber" />
+              </div>
+
+              <div class="form-group">
+                <label>CVV</label>
+                <input class="form-control" formControlName="securityCode" />
+              </div>
+
+              <div class="form-row">
                 <div class="form-group">
-                    <label>Street</label>
-                    <input
-                    type="text"
+                  <label>Expiration Month</label>
+                  <input
                     class="form-control"
-                    formControlName="street"
-                    placeholder="123 Main St"
-                    />  
+                    formControlName="expirationMonth"
+                    placeholder="MM"
+                  />
                 </div>
 
                 <div class="form-group">
-                    <label>City</label>
-                    <input
-                    type="text"
+                  <label>Expiration Year</label>
+                  <input
                     class="form-control"
-                    formControlName="city"
-                    placeholder="Anytown"
-                    />
+                    formControlName="expirationYear"
+                    placeholder="YYYY"
+                  />
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <div class="form-group">
-                    <label>State</label>
-                    <input
-                    type="text"
-                    class="form-control"
-                    formControlName="state"
-                    placeholder="CA"
-                    />
-                </div>
 
-                <div class="form-group">
-                    <label>Country</label>
-                    <input
-                    type="text"
-                    class="form-control"
-                    formControlName="country"
-                    placeholder="United States"
-                    />
-                </div>    
+          <!--Order details-->
+          <div class="order-summary">
+            <h4 class="section-title">Order Summary</h4>
 
-                <div class="form-group">
-                    <label>Zip Code</label>
-                    <input
-                    type="text"
-                    class="form-control"
-                    formControlName="zipCode"
-                    placeholder="12345"
-                    />
-                </div>
-                </div>
+            <div class="summary-row">
+              <span>Total Quantity:</span>
+              <strong>{{ totalQuantity || 0 }}</strong>
             </div>
 
-          <!-- Submit -->
-          <div class="form-group text-center">
+            <div class="summary-row">
+              <span>Total Price:</span>
+              <strong>{{ totalPrice | currency: "USD" }}</strong>
+            </div>
+          </div>
+
+          <!-- Submit BUTTON -->
+          <div class="btn-container">
             <button type="submit" class="btn-submit">
               💳 Complete Purchase
             </button>

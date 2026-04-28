@@ -1,278 +1,186 @@
-.checkout-card {
-  max-width: 700px;
-  margin: auto;
-  padding: 30px;
-  background: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+/* GLOBAL */
+body {
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* CARD */
+.checkout-card {
+  max-width: 950px;
+  margin: 40px auto;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* TITLE */
 .checkout-title {
   text-align: center;
+  font-size: 28px;
+  font-weight: 700;
   margin-bottom: 25px;
-  font-weight: 600;
+  color: #1e293b;
 }
 
-.form-section {
-  margin-bottom: 25px;
-}
-
-.section-title {
-  margin-bottom: 15px;
-  font-size: 18px;
-  font-weight: 500;
-  color: #555;
-}
-
-.form-row {
-  display: flex;
-  gap: 15px;
-}
-
-.form-group {
-  flex: 1;
-  margin-bottom: 15px;
-}
-
-.form-control {
-  height: 45px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  padding: 10px;
-  transition: 0.3s;
-}
-
-.form-control:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 5px rgba(102,126,234,0.5);
-  outline: none;
-}
-
-.btn-submit {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  font-size: 16px;
-  border-radius: 25px;
-  transition: 0.3s;
-}
-
-/* Shipping Section Enhanced CSS */
-
+/* SECTIONS */
 .form-section {
   margin-bottom: 30px;
   padding: 20px;
-  background: #f8f9fa;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-
-.form-section:hover {
-  background: #ffffff;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  border-radius: 14px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
 }
 
 .section-title {
-  margin-bottom: 20px;
   font-size: 18px;
+  margin-bottom: 15px;
+  color: #334155;
   font-weight: 600;
-  color: #333;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #667eea;
 }
 
-.section-title::before {
-  content: "🚚";
-  font-size: 20px;
-}
-
+/* GRID */
 .form-row {
   display: flex;
-  gap: 15px;
   flex-wrap: wrap;
+  gap: 15px;
 }
 
 .form-group {
   flex: 1;
-  margin-bottom: 15px;
-  min-width: 120px;
-}
-
-.form-group label {
+  min-width: 150px;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  flex-direction: column;
+}
+
+.form-group.full {
+  flex: 100%;
+}
+
+/* LABEL */
+label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #64748b;
   font-weight: 500;
-  color: #555;
-  font-size: 14px;
 }
 
-/* Street field takes full width */
-.form-group:first-child {
-  flex: 1 1 100%;
-}
-
-/* Responsive field sizing */
-.form-group:nth-child(2) {
-  flex: 2;
-}
-
-.form-group:nth-child(3) {
-  flex: 1;
-}
-
-.form-group:nth-child(4) {
-  flex: 2;
-}
-
-.form-group:nth-child(5) {
-  flex: 1;
-}
-
+/* INPUT */
 .form-control {
-  height: 48px;
-  border-radius: 8px;
-  border: 2px solid #e1e5e9;
-  padding: 10px 15px;
-  transition: all 0.3s ease;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
   font-size: 14px;
-  width: 100%;
-  box-sizing: border-box;
+  transition: all 0.3s ease;
   background: #fff;
 }
 
 .form-control:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
   outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
-/* Validation styles */
-.form-control.ng-invalid.ng-touched {
-  border-color: #ef4444;
-  background-color: #fef2f2;
+/* SELECT */
+.select-wrapper {
+  position: relative;
 }
 
-.form-control.ng-valid.ng-touched {
-  border-color: #10b981;
+.custom-select {
+  appearance: none;
+  cursor: pointer;
+  background: #fff;
 }
 
-.error-message {
-  color: #ef4444;
-  font-size: 12px;
-  margin-top: 5px;
+/* CUSTOM ARROW */
+.select-wrapper::after {
+  content: "⌄";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #6366f1;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.select-wrapper:hover::after {
+  color: #4f46e5;
+}
+
+/* HOVER OPTION FEEL (fake effect) */
+.custom-select:hover {
+  border-color: #6366f1;
+}
+
+/* CHECKBOX */
+.checkbox-group {
   display: flex;
   align-items: center;
-  gap: 5px;
-}
-
-/* Shipping methods section */
-.shipping-methods {
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px dashed #ddd;
-}
-
-.shipping-methods h5 {
+  gap: 10px;
+  margin: 20px 0;
   font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: #555;
 }
 
-.shipping-option {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px;
-  margin-bottom: 8px;
-  border: 2px solid #e1e5e9;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.checkbox-group input {
+  accent-color: #6366f1;
+  transform: scale(1.2);
 }
 
-.shipping-option:hover {
-  border-color: #667eea;
-  background: #f8f9ff;
+/* ORDER SUMMARY */
+.order-summary {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
 }
 
-.shipping-option.selected {
-  border-color: #667eea;
-  background: linear-gradient(135deg, #f8f9ff, #fff);
-}
-
-.shipping-option input[type="radio"] {
-  margin-right: 12px;
-  accent-color: #667eea;
-  cursor: pointer;
-}
-
-.shipping-details {
-  flex: 1;
+.summary-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  margin-bottom: 10px;
+  font-size: 15px;
 }
 
-.shipping-name {
-  font-weight: 500;
-  color: #333;
+/* BUTTON */
+.btn-container {
+  text-align: center;
+  margin-top: 25px;
 }
 
-.shipping-price {
-  color: #667eea;
+.btn-submit {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+  padding: 14px 30px;
+  font-size: 16px;
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
   font-weight: 600;
-}
-
-.shipping-time {
-  font-size: 12px;
-  color: #888;
-  margin-left: 10px;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .form-section {
-    padding: 15px;
-  }
-  
-  .form-row {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .form-group {
-    min-width: auto;
-  }
-  
-  .section-title {
-    font-size: 16px;
-  }
-  
-  .shipping-option {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  
-  .shipping-details {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-  
-  .shipping-time {
-    margin-left: 0;
-    margin-top: 5px;
-  }
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
 }
 
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 15px 25px rgba(34, 197, 94, 0.4);
+}
+
+.btn-submit:active {
+  transform: scale(0.98);
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

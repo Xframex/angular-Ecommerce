@@ -1,15 +1,17 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-checkout',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CurrencyPipe],
   templateUrl: './checkout.html',
   styleUrls: ['./checkout.css']
 })
 export class Checkout implements OnInit {
-
+   totalPrice: number = 0.00;
+  totalQuantity: number = 0;
 
 
   checkoutFormGroup: FormGroup ;
@@ -46,6 +48,7 @@ export class Checkout implements OnInit {
         securityCode: [''],
         expirationMonth: [''],
         expirationYear: ['']
+        
       })
     });
   }
@@ -66,7 +69,7 @@ copyShippingToBilling($event: Event) {
       .setValue(this.checkoutFormGroup.controls['shippingAddress'].value);
   } else {
     this.checkoutFormGroup.controls['billingAddress'].reset();
-    
+
   }
 
 
