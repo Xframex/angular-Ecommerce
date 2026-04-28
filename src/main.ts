@@ -8,10 +8,12 @@ import { ProductList } from './app/components/product-list/product-list';
 import { ProductDetails } from './app/components/product-details/product-details';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartDetails } from './app/components/cart-details/cart-details';
+import { Checkout } from './app/components/checkout/checkout';
 
 
 // Define routes
 const routes: Routes = [
+  {path:'checkout', component: Checkout},
   {path: 'cart-details', component: CartDetails},
   {path: 'products/:id', component: ProductDetails},
   {path: 'search/:keyword', component: ProductList},

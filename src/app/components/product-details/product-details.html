@@ -16,7 +16,7 @@
       <p>{{ product.description }}</p>
       <p><strong>Price: </strong>{{ product.unitPrice | currency }}</p>
       <button class="btn btn-primary" (click)="addToCart()">Add to Cart</button>
-    </div>
+      <a routerLink="/checkout" class="btn btn-primary">Checkout</a>
   </div>
 
 </div>
