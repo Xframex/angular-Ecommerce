@@ -176,7 +176,7 @@
                 <div class="select-wrapper">
                   <select
                     class="form-control custom-select"
-                    formControlName="expirationYear"
+                    formControlName="expirationYear" (change)="updateCreditCardMonths()"
                   >
                     <option value="" disabled selected>YYYY</option>
                     <option *ngFor="let year of creditCardYears" [value]="year">

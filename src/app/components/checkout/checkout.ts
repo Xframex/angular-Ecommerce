@@ -12,6 +12,7 @@ import { IsmaCart } from '../../services/isma-cart.service';
 })
 export class Checkout implements OnInit {
 
+
   totalPrice: number = 0;
   totalQuantity: number = 0;
 
@@ -86,4 +87,24 @@ export class Checkout implements OnInit {
       this.checkoutFormGroup.get('billingAddress')?.reset();
     }
   }
+
+
+  // CUSTOM METHOD TO HANDLE MONTHS BASED ON YEAR
+  updateCreditCardMonths() {
+    const selectedYear: number = Number(this.checkoutFormGroup.get('creditCard')?.value.expirationYear);
+    const currentYear: number = new Date().getFullYear();
+    let startMonth: number;
+
+    if (selectedYear === currentYear) {
+      startMonth = new Date().getMonth() + 1;
+    } else {
+      startMonth = 1;
+    }
+
+    this.ismaCart.getCreditCardMonths(startMonth).subscribe(data => {
+      console.log("Retrieved credit card months:"+ JSON.stringify(data));
+      this.creditCardMonths = data; 
+    });
+  }
+
 }
