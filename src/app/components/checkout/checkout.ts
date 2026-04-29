@@ -1,6 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { IsmaCart } from '../../services/isma-cart.service';
 
 
 @Component({
@@ -10,13 +11,22 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./checkout.css']
 })
 export class Checkout implements OnInit {
-   totalPrice: number = 0.00;
+  
+
+
+  totalPrice: number = 0.00;
   totalQuantity: number = 0;
+  creditCardYears: number[] = [];
+  creditCardMonths: number[] = [];
 
 
   checkoutFormGroup: FormGroup ;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              private ismaCart: IsmaCart  
+    )
+            
+ {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: [''],
@@ -51,6 +61,28 @@ export class Checkout implements OnInit {
         
       })
     });
+
+  // populate credit card months
+  const startMonth: number = new Date().getMonth() + 1;
+  console.log("startMonth: " + startMonth);
+  this.ismaCart.getCreditCardMonths(startMonth).subscribe(
+    data => {
+      console.log("Received credit card months: " + JSON.stringify(data));
+      this.creditCardMonths = data;
+    }
+    );
+    
+  // populate credit card years
+  this.ismaCart.getCreditCardYears().subscribe(
+    data => {
+      console.log("Received credit card years: " + JSON.stringify(data));
+      this.creditCardYears = data;
+    }
+    );
+
+
+
+
   }
 
   ngOnInit(): void {
@@ -62,6 +94,9 @@ export class Checkout implements OnInit {
     console.log(this.checkoutFormGroup.get('customer')?.value);
 
 }
+
+
+
 
 copyShippingToBilling($event: Event) {
   if (($event.target as HTMLInputElement).checked) {
