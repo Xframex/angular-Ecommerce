@@ -4,7 +4,7 @@
       <div class="checkout-card">
         <h2 class="checkout-title">🛒 Checkout</h2>
 
-        <form [formGroup]="checkoutFormGroup">
+        <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
           <!-- CUSTOMER -->
           <div formGroupName="customer" class="form-section">
             <h4 class="section-title">Customer Information</h4>
@@ -78,9 +78,7 @@
               id="sameAsShipping"
               (change)="copyShippingToBilling($event)"
             />
-            <label for="sameAsShipping">
-              Billing address same as shipping
-            </label>
+            <label for="sameAsShipping">Billing address same as shipping</label>
           </div>
 
           <!-- BILLING -->
@@ -115,13 +113,12 @@
             </div>
           </div>
 
-          <!-- CARD -->
-          <div class="form-section">
+          <!-- PAYMENT -->
+          <div class="form-section" formGroupName="creditCard">
             <h4 class="section-title">Payment</h4>
 
             <div class="form-group">
               <label>Card Type</label>
-
               <div class="select-wrapper">
                 <select
                   class="form-control custom-select"
@@ -136,46 +133,62 @@
                   <option value="Diners Club">Diners Club</option>
                 </select>
               </div>
+            </div>
 
+            <div class="form-group">
+              <label>Name on Card</label>
+              <input class="form-control" formControlName="nameOnCard" />
+            </div>
+
+            <div class="form-group">
+              <label>Card Number</label>
+              <input class="form-control" formControlName="cardNumber" />
+            </div>
+
+            <div class="form-group">
+              <label>CVV</label>
+              <input class="form-control" formControlName="securityCode" />
+            </div>
+
+            <div class="form-row">
+              <!-- MONTH -->
               <div class="form-group">
-                <label>Name on Card</label>
-                <input class="form-control" formControlName="nameOnCard" />
-              </div>
-
-              <div class="form-group">
-                <label>Card Number</label>
-                <input class="form-control" formControlName="cardNumber" />
-              </div>
-
-              <div class="form-group">
-                <label>CVV</label>
-                <input class="form-control" formControlName="securityCode" />
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label>Expiration Month</label>
-                  <input
-                    class="form-control"
+                <label>Expiration Month</label>
+                <div class="select-wrapper">
+                  <select
+                    class="form-control custom-select"
                     formControlName="expirationMonth"
-                    placeholder="MM"
-                  />
+                  >
+                    <option value="" disabled selected>MM</option>
+                    <option
+                      *ngFor="let month of creditCardMonths"
+                      [value]="month"
+                    >
+                      {{ month }}
+                    </option>
+                  </select>
                 </div>
+              </div>
 
-                <div class="form-group">
-                  <label>Expiration Year</label>
-                  <input
-                    class="form-control"
+              <!-- YEAR -->
+              <div class="form-group">
+                <label>Expiration Year</label>
+                <div class="select-wrapper">
+                  <select
+                    class="form-control custom-select"
                     formControlName="expirationYear"
-                    placeholder="YYYY"
-                  />
+                  >
+                    <option value="" disabled selected>YYYY</option>
+                    <option *ngFor="let year of creditCardYears" [value]="year">
+                      {{ year }}
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>
           </div>
 
-
-          <!--Order details-->
+          <!-- ORDER SUMMARY -->
           <div class="order-summary">
             <h4 class="section-title">Order Summary</h4>
 
@@ -190,7 +203,7 @@
             </div>
           </div>
 
-          <!-- Submit BUTTON -->
+          <!-- BUTTON -->
           <div class="btn-container">
             <button type="submit" class="btn-submit">
               💳 Complete Purchase
