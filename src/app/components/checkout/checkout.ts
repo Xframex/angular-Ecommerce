@@ -2,6 +2,8 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IsmaCart } from '../../services/isma-cart.service';
+import { Country } from '../../common/country';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-checkout',
@@ -21,8 +23,11 @@ export class Checkout implements OnInit {
 
   checkoutFormGroup!: FormGroup;
 
+  countries: Country[] = [];
+
   constructor(private formBuilder: FormBuilder,
-              private ismaCart: IsmaCart) {}
+              private ismaCart: IsmaCart,
+            ) {}
 
   ngOnInit(): void {
 
@@ -71,11 +76,19 @@ export class Checkout implements OnInit {
     this.ismaCart.getCreditCardYears().subscribe(data => {
       this.creditCardYears = data;
     });
+
+    // LOAD COUNTRIES
+    this.ismaCart.getCountries().subscribe(data => {
+      this.countries = data;
+      console.log("Retrieved countries:"+ JSON.stringify(this.countries));
+    });
   }
 
   onSubmit() {
     console.log("Form Data:", this.checkoutFormGroup.value);
   }
+
+  // LOAD COUNTRIES
 
   copyShippingToBilling(event: Event) {
     const checkbox = event.target as HTMLInputElement;
