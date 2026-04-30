@@ -14,7 +14,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Checkout implements OnInit {
 
-
   totalPrice: number = 0;
   totalQuantity: number = 0;
 
@@ -65,6 +64,16 @@ export class Checkout implements OnInit {
       })
     });
 
+    // ✅ AUTO-SYNC: When shipping country changes, automatically update billing country
+    const shippingCountry = this.checkoutFormGroup.get('shippingAddress.country');
+    
+    if (shippingCountry) {
+      shippingCountry.valueChanges.subscribe(countryValue => {
+        // Update billing country without triggering another valueChanges event
+        this.checkoutFormGroup.get('billingAddress.country')?.setValue(countryValue, { emitEvent: false });
+      });
+    }
+
     // LOAD MONTHS
     const startMonth = new Date().getMonth() + 1;
 
@@ -88,19 +97,33 @@ export class Checkout implements OnInit {
     console.log("Form Data:", this.checkoutFormGroup.value);
   }
 
-  // LOAD COUNTRIES
-
+  // UPDATED: Copy full shipping address to billing when checkbox is checked
   copyShippingToBilling(event: Event) {
     const checkbox = event.target as HTMLInputElement;
 
     if (checkbox.checked) {
-      this.checkoutFormGroup.get('billingAddress')
-        ?.setValue(this.checkoutFormGroup.get('shippingAddress')?.value);
+      // Copy entire shipping address to billing address
+      const shippingAddress = this.checkoutFormGroup.get('shippingAddress')?.value;
+      this.checkoutFormGroup.get('billingAddress')?.setValue({
+        street: shippingAddress.street,
+        city: shippingAddress.city,
+        state: shippingAddress.state,
+        country: shippingAddress.country,
+        zipCode: shippingAddress.zipCode
+      });
     } else {
-      this.checkoutFormGroup.get('billingAddress')?.reset();
+      // Reset only the fields that aren't being auto-synced
+      // We keep the country auto-sync active, so only reset other fields
+      const currentCountry = this.checkoutFormGroup.get('billingAddress.country')?.value;
+      this.checkoutFormGroup.get('billingAddress')?.reset({
+        street: '',
+        city: '',
+        state: '',
+        country: currentCountry, // Preserve the auto-synced country
+        zipCode: ''
+      });
     }
   }
-
 
   // CUSTOM METHOD TO HANDLE MONTHS BASED ON YEAR
   updateCreditCardMonths() {
@@ -119,5 +142,4 @@ export class Checkout implements OnInit {
       this.creditCardMonths = data; 
     });
   }
-
 }
