@@ -3,19 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IsmaCart } from '../../services/isma-cart.service';
 import { Country } from '../../common/country';
-import { HttpClient } from '@angular/common/http';
+import { State } from '../../common/state';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
   imports: [ReactiveFormsModule, CurrencyPipe, CommonModule],
   templateUrl: './checkout.html',
-  styleUrls: ['./checkout.css']
+  styleUrls: ['./checkout.css'],
 })
 export class Checkout implements OnInit {
-
-  totalPrice: number = 0;
-  totalQuantity: number = 0;
+  totalPrice: number = 299.97;
+  totalQuantity: number = 3;
 
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
@@ -23,123 +22,190 @@ export class Checkout implements OnInit {
   checkoutFormGroup!: FormGroup;
 
   countries: Country[] = [];
+  shippingStates: State[] = [];
+  billingStates: State[] = [];
 
-  constructor(private formBuilder: FormBuilder,
-              private ismaCart: IsmaCart,
-            ) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private ismaCart: IsmaCart,
+  ) {}
 
   ngOnInit(): void {
+    this.initForm();
+    this.initCountryListeners();
+    this.initCreditCardData();
+    this.loadCountries();
+  }
 
-    // FORM
+  private initForm(): void {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: [''],
         lastName: [''],
-        email: ['']
+        email: [''],
       }),
-
       shippingAddress: this.formBuilder.group({
         street: [''],
         city: [''],
         state: [''],
         country: [''],
-        zipCode: ['']
+        zipCode: [''],
       }),
-
       billingAddress: this.formBuilder.group({
         street: [''],
         city: [''],
         state: [''],
         country: [''],
-        zipCode: ['']
+        zipCode: [''],
       }),
-
       creditCard: this.formBuilder.group({
         cardType: [''],
         nameOnCard: [''],
         cardNumber: [''],
         securityCode: [''],
         expirationMonth: [''],
-        expirationYear: ['']
-      })
+        expirationYear: [''],
+      }),
     });
+  }
 
-    // ✅ AUTO-SYNC: When shipping country changes, automatically update billing country
+  private initCountryListeners(): void {
     const shippingCountry = this.checkoutFormGroup.get('shippingAddress.country');
     
     if (shippingCountry) {
-      shippingCountry.valueChanges.subscribe(countryValue => {
-        // Update billing country without triggering another valueChanges event
-        this.checkoutFormGroup.get('billingAddress.country')?.setValue(countryValue, { emitEvent: false });
+      shippingCountry.valueChanges.subscribe(countryCode => {
+        console.log('Shipping country changed to:', countryCode);
+        
+        // Update billing country without triggering its change event
+        this.checkoutFormGroup.get('billingAddress.country')?.setValue(countryCode, { emitEvent: false });
+        
+        // Load states for both addresses
+        if (countryCode) {
+          // Find the country object to get its ID
+          const selectedCountry = this.countries.find(c => c.code === countryCode);
+          if (selectedCountry) {
+            this.loadStatesForAddress('shippingAddress', selectedCountry.code);
+            this.loadStatesForAddress('billingAddress', selectedCountry.code);
+          }
+        } else {
+          this.shippingStates = [];
+          this.billingStates = [];
+        }
       });
     }
 
-    // LOAD MONTHS
-    const startMonth = new Date().getMonth() + 1;
+    const billingCountry = this.checkoutFormGroup.get('billingAddress.country');
+    
+    if (billingCountry) {
+      billingCountry.valueChanges.subscribe(countryCode => {
+        console.log('Billing country changed to:', countryCode);
+        
+        if (countryCode) {
+          const selectedCountry = this.countries.find(c => c.code === countryCode);
+          if (selectedCountry) {
+            this.loadStatesForAddress('billingAddress', selectedCountry.code);
+          }
+        } else {
+          this.billingStates = [];
+        }
+      });
+    }
+  }
 
-    this.ismaCart.getCreditCardMonths(startMonth).subscribe(data => {
+  private initCreditCardData(): void {
+    const startMonth = new Date().getMonth() + 1;
+    
+    this.ismaCart.getCreditCardMonths(startMonth).subscribe((data) => {
       this.creditCardMonths = data;
     });
 
-    // LOAD YEARS
-    this.ismaCart.getCreditCardYears().subscribe(data => {
+    this.ismaCart.getCreditCardYears().subscribe((data) => {
       this.creditCardYears = data;
     });
+  }
 
-    // LOAD COUNTRIES
-    this.ismaCart.getCountries().subscribe(data => {
+  private loadCountries(): void {
+    this.ismaCart.getCountries().subscribe((data) => {
       this.countries = data;
-      console.log("Retrieved countries:"+ JSON.stringify(this.countries));
+      console.log('Retrieved countries:', this.countries);
     });
   }
 
-  onSubmit() {
-    console.log("Form Data:", this.checkoutFormGroup.value);
+  private loadStatesForAddress(addressPath: string, countryCode: string): void {
+    console.log(`Loading states for country code: ${countryCode}`);
+    
+    this.ismaCart.getStates(countryCode).subscribe({
+      next: (states: State[]) => {
+        console.log(`Loaded states:`, states);
+        
+        if (addressPath === 'shippingAddress') {
+          this.shippingStates = states;
+          this.checkoutFormGroup.get('shippingAddress.state')?.setValue('');
+        } else {
+          this.billingStates = states;
+          this.checkoutFormGroup.get('billingAddress.state')?.setValue('');
+        }
+      },
+      error: (error) => {
+        console.error(`Error loading states:`, error);
+        if (addressPath === 'shippingAddress') {
+          this.shippingStates = [];
+        } else {
+          this.billingStates = [];
+        }
+      },
+    });
   }
 
-  // UPDATED: Copy full shipping address to billing when checkbox is checked
-  copyShippingToBilling(event: Event) {
+  onSubmit(): void {
+    console.log('Form Data:', this.checkoutFormGroup.value);
+  }
+
+  copyShippingToBilling(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
 
     if (checkbox.checked) {
-      // Copy entire shipping address to billing address
       const shippingAddress = this.checkoutFormGroup.get('shippingAddress')?.value;
       this.checkoutFormGroup.get('billingAddress')?.setValue({
         street: shippingAddress.street,
         city: shippingAddress.city,
         state: shippingAddress.state,
         country: shippingAddress.country,
-        zipCode: shippingAddress.zipCode
+        zipCode: shippingAddress.zipCode,
       });
+      
+      this.billingStates = [...this.shippingStates];
     } else {
-      // Reset only the fields that aren't being auto-synced
-      // We keep the country auto-sync active, so only reset other fields
       const currentCountry = this.checkoutFormGroup.get('billingAddress.country')?.value;
       this.checkoutFormGroup.get('billingAddress')?.reset({
         street: '',
         city: '',
         state: '',
-        country: currentCountry, // Preserve the auto-synced country
-        zipCode: ''
+        country: currentCountry,
+        zipCode: '',
       });
+
+      if (currentCountry) {
+        const selectedCountry = this.countries.find(c => c.code === currentCountry);
+        if (selectedCountry) {
+          this.loadStatesForAddress('billingAddress', selectedCountry.code);
+        }
+      } else {
+        this.billingStates = [];
+      }
     }
   }
 
-  // CUSTOM METHOD TO HANDLE MONTHS BASED ON YEAR
-  updateCreditCardMonths() {
-    const selectedYear: number = Number(this.checkoutFormGroup.get('creditCard')?.value.expirationYear);
+  updateCreditCardMonths(): void {
+    const selectedYear: number = Number(
+      this.checkoutFormGroup.get('creditCard')?.value.expirationYear
+    );
     const currentYear: number = new Date().getFullYear();
-    let startMonth: number;
+    const startMonth: number = selectedYear === currentYear ? new Date().getMonth() + 1 : 1;
 
-    if (selectedYear === currentYear) {
-      startMonth = new Date().getMonth() + 1;
-    } else {
-      startMonth = 1;
-    }
-
-    this.ismaCart.getCreditCardMonths(startMonth).subscribe(data => {
-      console.log("Retrieved credit card months:"+ JSON.stringify(data));
-      this.creditCardMonths = data; 
+    this.ismaCart.getCreditCardMonths(startMonth).subscribe((data) => {
+      console.log('Retrieved credit card months:', data);
+      this.creditCardMonths = data;
     });
   }
 }

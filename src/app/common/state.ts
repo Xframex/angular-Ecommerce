@@ -1,7 +1,10 @@
 export class State {
+    id: number;
+    name: string;
+    
 
-    constructor(private id: number = 0,
-                private name: string = '') {
+    constructor(id: number, name: string) {
+        this.id = id;
+        this.name = name;
     }
 }
- 
