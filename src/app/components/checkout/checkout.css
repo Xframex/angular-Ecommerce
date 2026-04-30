@@ -2,6 +2,8 @@
 body {
   background: linear-gradient(135deg, #eef2ff, #f8fafc);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 20px;
 }
 
 /* CARD */
@@ -31,6 +33,11 @@ body {
   border-radius: 14px;
   background: #f9fafb;
   border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.form-section:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .section-title {
@@ -52,6 +59,7 @@ body {
   min-width: 150px;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .form-group.full {
@@ -64,9 +72,17 @@ label {
   margin-bottom: 6px;
   color: #64748b;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-/* INPUT */
+.required-star {
+  color: #ef4444;
+  font-size: 14px;
+}
+
+/* INPUT FIELDS */
 .form-control {
   padding: 12px 14px;
   border-radius: 10px;
@@ -74,6 +90,8 @@ label {
   font-size: 14px;
   transition: all 0.3s ease;
   background: #fff;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-control:focus {
@@ -82,37 +100,153 @@ label {
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
-/* SELECT */
+.form-control:hover:not(:disabled) {
+  border-color: #6366f1;
+  background: #fafbff;
+}
+
+/* SELECT WRAPPER - ENHANCED FOR ALL DROPDOWNS */
 .select-wrapper {
   position: relative;
+  width: 100%;
+  display: inline-block;
 }
 
+/* CUSTOM SELECT - APPLIED TO ALL SELECTS */
 .custom-select {
-  appearance: none;
+  width: 100%;
+  padding: 12px 40px 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  background-color: #fff;
   cursor: pointer;
-  background: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: all 0.3s ease;
+  font-family: inherit;
 }
 
-/* CUSTOM ARROW */
-.select-wrapper::after {
-  content: "⌄";
+/* Placeholder option styling */
+.placeholder-option {
+  color: #9ca3af;
+  font-style: italic;
+  background-color: #f9fafb;
+}
+
+/* Custom Arrow for ALL selects */
+.custom-arrow {
   position: absolute;
   right: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 16px;
-  color: #6366f1;
   pointer-events: none;
-  transition: 0.3s;
+  color: #6366f1;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  width: 20px;
+  height: 20px;
 }
 
-.select-wrapper:hover::after {
+.custom-arrow svg {
+  transition: transform 0.3s ease;
+}
+
+/* Rotate arrow when select is focused */
+.custom-select:focus + .custom-arrow svg,
+.custom-select:focus ~ .custom-arrow svg {
+  transform: rotate(180deg);
   color: #4f46e5;
 }
 
-/* HOVER OPTION FEEL (fake effect) */
+/* Arrow animation on hover */
+.select-wrapper:hover .custom-arrow svg {
+  transform: translateY(2px);
+}
+
+.select-wrapper:hover .custom-select:focus + .custom-arrow svg {
+  transform: rotate(180deg) translateY(0);
+}
+
+/* Select focus state */
+.custom-select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Select hover state */
 .custom-select:hover {
   border-color: #6366f1;
+  background-color: #fafbff;
+}
+
+/* Invalid state for selects */
+.select-wrapper.is-invalid .custom-select {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.select-wrapper.is-invalid .custom-arrow {
+  color: #ef4444;
+}
+
+/* Valid state for selects */
+.select-wrapper.is-valid .custom-select {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+.select-wrapper.is-valid .custom-arrow {
+  color: #10b981;
+}
+
+/* Option styling */
+.custom-select option {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.custom-select option:checked {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+}
+
+/* Text inputs validation states */
+.form-control.is-invalid {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.form-control.is-valid {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+/* Error messages */
+.text-danger {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  animation: shakeError 0.3s ease-in-out;
+}
+
+/* Success messages */
+.valid-feedback {
+  margin-top: 5px;
+  font-size: 11px;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  animation: fadeInUp 0.3s ease;
 }
 
 /* CHECKBOX */
@@ -127,6 +261,11 @@ label {
 .checkbox-group input {
   accent-color: #6366f1;
   transform: scale(1.2);
+}
+
+.checkbox-group label.disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
 }
 
 /* ORDER SUMMARY */
@@ -164,16 +303,21 @@ label {
   box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
 }
 
-.btn-submit:hover {
+.btn-submit:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 15px 25px rgba(34, 197, 94, 0.4);
 }
 
-.btn-submit:active {
+.btn-submit:active:not(:disabled) {
   transform: scale(0.98);
 }
 
-/* ANIMATION */
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ANIMATIONS */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -182,5 +326,116 @@ label {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .checkout-card {
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .form-group {
+    min-width: 100%;
+  }
+  
+  .custom-select,
+  .form-control {
+    padding: 10px 35px 10px 12px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .custom-arrow {
+    right: 12px;
+  }
+  
+  .custom-arrow svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .form-section {
+    padding: 15px;
+  }
+  
+  .section-title {
+    font-size: 16px;
+  }
+}
+
+/* DARK MODE SUPPORT */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+  }
+  
+  .checkout-card {
+    background: #1e293b;
+  }
+  
+  .checkout-title {
+    color: #f1f5f9;
+  }
+  
+  .form-section {
+    background: #334155;
+    border-color: #475569;
+  }
+  
+  .section-title {
+    color: #e2e8f0;
+  }
+  
+  label {
+    color: #cbd5e1;
+  }
+  
+  .custom-select,
+  .form-control {
+    background-color: #1e293b;
+    border-color: #475569;
+    color: #f1f5f9;
+  }
+  
+  .custom-select option {
+    background-color: #1e293b;
+    color: #f1f5f9;
+  }
+  
+  .placeholder-option {
+    color: #94a3b8;
+    background-color: #334155;
+  }
+  
+  .custom-arrow {
+    background: transparent;
+  }
+  
+  .select-wrapper.is-valid .custom-select,
+  .form-control.is-valid {
+    background-color: #064e3b;
+  }
+  
+  .select-wrapper.is-invalid .custom-select,
+  .form-control.is-invalid {
+    background-color: #7f1d1d;
   }
 }

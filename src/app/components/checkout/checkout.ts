@@ -1,6 +1,6 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IsmaCart } from '../../services/isma-cart.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
@@ -13,8 +13,8 @@ import { State } from '../../common/state';
   styleUrls: ['./checkout.css'],
 })
 export class Checkout implements OnInit {
-  totalPrice: number = 299.97;
-  totalQuantity: number = 3;
+  totalPrice: number = 0;
+  totalQuantity: number = 0;
 
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
@@ -28,219 +28,190 @@ export class Checkout implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private ismaCart: IsmaCart,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
-    this.initCountryListeners();
     this.initCreditCardData();
-    this.loadCountries();
+    this.loadCountries(); // ⬅ load first
   }
 
   private initForm(): void {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: [''],
-        lastName: [''],
-        email: [''],
+        firstName: ['', [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]+')]],
+        lastName: ['', [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]+')]],
+        email: ['', [Validators.required, Validators.email]],
       }),
+
       shippingAddress: this.formBuilder.group({
-        street: [''],
-        city: [''],
-        state: [''],
-        country: [''],
-        zipCode: [''],
+        street: ['', Validators.required],
+        city: ['', Validators.required],
+        state: ['', Validators.required],
+        country: ['', Validators.required],
+        zipCode: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
       }),
+
       billingAddress: this.formBuilder.group({
-        street: [''],
-        city: [''],
-        state: [''],
-        country: [''],
-        zipCode: [''],
+        street: ['', Validators.required],
+        city: ['', Validators.required],
+        state: ['', Validators.required],
+        country: ['', Validators.required],
+        zipCode: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
       }),
+
       creditCard: this.formBuilder.group({
-        cardType: [''],
-        nameOnCard: [''],
-        cardNumber: [''],
-        securityCode: [''],
-        expirationMonth: [''],
-        expirationYear: [''],
+        cardType: ['', Validators.required],
+        nameOnCard: ['', [Validators.required, Validators.minLength(3)]],
+        cardNumber: ['', [Validators.required, Validators.pattern('[0-9]{16}')]],
+        securityCode: ['', [Validators.required, Validators.pattern('[0-9]{3,4}')]],
+        expirationMonth: ['', Validators.required],
+        expirationYear: ['', Validators.required],
       }),
     });
   }
 
+  // moved here AFTER countries load
   private initCountryListeners(): void {
     const shippingCountry = this.checkoutFormGroup.get('shippingAddress.country');
-    
-    if (shippingCountry) {
-      shippingCountry.valueChanges.subscribe(countryCode => {
-        console.log('Shipping country changed to:', countryCode);
-        
-        // Update billing country without triggering its change event
-        this.checkoutFormGroup.get('billingAddress.country')?.setValue(countryCode, { emitEvent: false });
-        
-        // Load states for both addresses
-        if (countryCode) {
-          // Find the country object to get its ID
-          const selectedCountry = this.countries.find(c => c.code === countryCode);
-          if (selectedCountry) {
-            this.loadStatesForAddress('shippingAddress', selectedCountry.code);
-            this.loadStatesForAddress('billingAddress', selectedCountry.code);
-          }
-        } else {
-          this.shippingStates = [];
-          this.billingStates = [];
-        }
-      });
-    }
+
+    shippingCountry?.valueChanges.subscribe(countryCode => {
+      console.log('Shipping country changed to:', countryCode);
+
+      this.checkoutFormGroup.get('billingAddress.country')
+        ?.setValue(countryCode, { emitEvent: false });
+
+      if (countryCode) {
+        this.loadStatesForAddress('shippingAddress', countryCode);
+        this.loadStatesForAddress('billingAddress', countryCode);
+      } else {
+        this.shippingStates = [];
+        this.billingStates = [];
+      }
+    });
 
     const billingCountry = this.checkoutFormGroup.get('billingAddress.country');
-    
-    if (billingCountry) {
-      billingCountry.valueChanges.subscribe(countryCode => {
-        console.log('Billing country changed to:', countryCode);
-        
-        if (countryCode) {
-          const selectedCountry = this.countries.find(c => c.code === countryCode);
-          if (selectedCountry) {
-            this.loadStatesForAddress('billingAddress', selectedCountry.code);
-          }
-        } else {
-          this.billingStates = [];
-        }
-      });
-    }
+
+    billingCountry?.valueChanges.subscribe(countryCode => {
+      console.log('Billing country changed to:', countryCode);
+
+      if (countryCode) {
+        this.loadStatesForAddress('billingAddress', countryCode);
+      } else {
+        this.billingStates = [];
+      }
+    });
   }
 
   private initCreditCardData(): void {
     const startMonth = new Date().getMonth() + 1;
-    
-    this.ismaCart.getCreditCardMonths(startMonth).subscribe((data) => {
+
+    this.ismaCart.getCreditCardMonths(startMonth).subscribe(data => {
       this.creditCardMonths = data;
     });
 
-    this.ismaCart.getCreditCardYears().subscribe((data) => {
+    this.ismaCart.getCreditCardYears().subscribe(data => {
       this.creditCardYears = data;
     });
   }
 
   private loadCountries(): void {
-    this.ismaCart.getCountries().subscribe((data) => {
+    this.ismaCart.getCountries().subscribe(data => {
       this.countries = data;
       console.log('Retrieved countries:', this.countries);
+
+      // FIX: init listeners AFTER countries loaded
+      this.initCountryListeners();
     });
   }
 
+  //  FIXED getters
+  get firstName() { return this.checkoutFormGroup.get('customer.firstName'); }
+  get lastName() { return this.checkoutFormGroup.get('customer.lastName'); }
+  get email() { return this.checkoutFormGroup.get('customer.email'); }
+
+  get shippingStreet() { return this.checkoutFormGroup.get('shippingAddress.street'); }
+  get shippingCity() { return this.checkoutFormGroup.get('shippingAddress.city'); }
+  get shippingZipCode() { return this.checkoutFormGroup.get('shippingAddress.zipCode'); }
+  get shippingCountry() { return this.checkoutFormGroup.get('shippingAddress.country'); }
+  get shippingState() { return this.checkoutFormGroup.get('shippingAddress.state'); }
+
+  get billingStreet() { return this.checkoutFormGroup.get('billingAddress.street'); }
+  get billingCity() { return this.checkoutFormGroup.get('billingAddress.city'); }
+  get billingZipCode() { return this.checkoutFormGroup.get('billingAddress.zipCode'); }
+  get billingCountry() { return this.checkoutFormGroup.get('billingAddress.country'); }
+  get billingState() { return this.checkoutFormGroup.get('billingAddress.state'); }
+
+  get cardType() { return this.checkoutFormGroup.get('creditCard.cardType'); }
+  get nameOnCard() { return this.checkoutFormGroup.get('creditCard.nameOnCard'); }
+  get cardNumber() { return this.checkoutFormGroup.get('creditCard.cardNumber'); }
+  get securityCode() { return this.checkoutFormGroup.get('creditCard.securityCode'); }
+  get expirationMonth() { return this.checkoutFormGroup.get('creditCard.expirationMonth'); }
+  get expirationYear() { return this.checkoutFormGroup.get('creditCard.expirationYear'); }
+
   private loadStatesForAddress(addressPath: string, countryCode: string): void {
-    console.log(`Loading states for country code: ${countryCode}`);
-    
+    console.log(`Loading states for ${addressPath}:`, countryCode);
+
     this.ismaCart.getStates(countryCode).subscribe({
       next: (states: State[]) => {
-        console.log(`Loaded states:`, states);
-        
         if (addressPath === 'shippingAddress') {
           this.shippingStates = states;
-          this.checkoutFormGroup.get('shippingAddress.state')?.setValue('');
+          this.checkoutFormGroup.get('shippingAddress.state')?.setValue(null); // ✅ safer
         } else {
           this.billingStates = states;
-          this.checkoutFormGroup.get('billingAddress.state')?.setValue('');
+          this.checkoutFormGroup.get('billingAddress.state')?.setValue(null); // ✅ safer
         }
       },
       error: (error) => {
-        console.error(`Error loading states:`, error);
-        if (addressPath === 'shippingAddress') {
-          this.shippingStates = [];
-        } else {
-          this.billingStates = [];
-        }
+        console.error('Error loading states:', error);
       },
     });
   }
 
-  onSubmit(){
-    console.log("Handling the submit button");
-    console.log(this.checkoutFormGroup.get('customer')?.value);
-    console.log("the email address is " + this.checkoutFormGroup.get('customer')?.value.email);
+  onSubmit() {
+    if (this.checkoutFormGroup.invalid) {
+      this.checkoutFormGroup.markAllAsTouched();
+      console.log("Form is invalid");
+      return;
+    }
 
-    console.log("The shipping address country is " + this.checkoutFormGroup.get('shippingAddress')?.value.country);
-    console.log("The shipping address state is " + this.checkoutFormGroup.get('shippingAddress')?.value.state);
+    console.log("Form is valid ✅");
+    console.log(this.checkoutFormGroup.value);
   }
 
+  copyShippingToBilling(event: any) {
+    const shippingAddress = this.checkoutFormGroup.get('shippingAddress') as FormGroup;
+    const billingAddress = this.checkoutFormGroup.get('billingAddress') as FormGroup;
 
-copyShippingToBilling(event: any) {
-  const shippingAddress = this.checkoutFormGroup.get('shippingAddress') as FormGroup;
-  const billingAddress = this.checkoutFormGroup.get('billingAddress') as FormGroup;
-  
-  if (event.target.checked) {
-    const shippingValues = shippingAddress.value;
-    const shippingCountryCode = shippingValues.country;
-    
-    // Copy all shipping values to billing
-    billingAddress.patchValue({
-      street: shippingValues.street,
-      city: shippingValues.city,
-      zipCode: shippingValues.zipCode,
-      country: shippingCountryCode,
-      state: shippingValues.state  // This will copy the state.id value
-    });
-    
-    // Load states from server if country exists
-    if (shippingCountryCode) {
-      this.ismaCart.getStates(shippingCountryCode).subscribe({
-        next: (states: State[]) => {
-          this.billingStates = states;
-          
-          // After states loaded, verify the copied state.id exists in the loaded states
-          const copiedStateId = shippingValues.state;
-          if (copiedStateId && states.some(s => s.id === copiedStateId)) {
-            // State already set from patchValue, just keep it
-            console.log('State copied successfully:', copiedStateId);
-          } else if (copiedStateId) {
-            // State doesn't exist in loaded states, clear it
-            billingAddress.get('state')?.setValue('');
-          }
-        },
-        error: (error) => {
-          console.error('Error loading billing states:', error);
-          this.billingStates = [];
-          billingAddress.get('state')?.setValue('');
-        }
+    if (event.target.checked) {
+      const values = shippingAddress.value;
+
+      billingAddress.patchValue({
+        street: values.street,
+        city: values.city,
+        zipCode: values.zipCode,
+        country: values.country,
+        state: values.state
       });
+
+      if (values.country) {
+        this.loadStatesForAddress('billingAddress', values.country);
+      }
     } else {
+      billingAddress.reset();
       this.billingStates = [];
     }
-  } else {
-    // Reset billing address
-    billingAddress.patchValue({
-      street: '',
-      city: '',
-      state: '',
-      zipCode: ''
-    });
-    
-    this.billingStates = [];
-    
-    // Keep billing country same as shipping for consistency
-    const shippingCountry = shippingAddress.get('country')?.value;
-    if (shippingCountry) {
-      billingAddress.get('country')?.setValue(shippingCountry, { emitEvent: false });
-    } else {
-      billingAddress.get('country')?.setValue('');
-    }
   }
-} 
-  
-
 
   updateCreditCardMonths(): void {
-    const selectedYear: number = Number(
-      this.checkoutFormGroup.get('creditCard')?.value.expirationYear
+    const selectedYear = Number(
+      this.checkoutFormGroup.get('creditCard.expirationYear')?.value
     );
-    const currentYear: number = new Date().getFullYear();
-    const startMonth: number = selectedYear === currentYear ? new Date().getMonth() + 1 : 1;
 
-    this.ismaCart.getCreditCardMonths(startMonth).subscribe((data) => {
-      console.log('Retrieved credit card months:', data);
+    const currentYear = new Date().getFullYear();
+    const startMonth = selectedYear === currentYear ? new Date().getMonth() + 1 : 1;
+
+    this.ismaCart.getCreditCardMonths(startMonth).subscribe(data => {
       this.creditCardMonths = data;
     });
   }
