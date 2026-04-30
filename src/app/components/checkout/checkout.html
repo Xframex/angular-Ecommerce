@@ -99,8 +99,18 @@
               type="checkbox"
               id="sameAsShipping"
               (change)="copyShippingToBilling($event)"
+              [disabled]="
+                !checkoutFormGroup.get('shippingAddress.country')?.value
+              "
             />
-            <label for="sameAsShipping">Billing address same as shipping</label>
+            <label
+              for="sameAsShipping"
+              [class.disabled]="
+                !checkoutFormGroup.get('shippingAddress.country')?.value
+              "
+            >
+              Billing address same as shipping
+            </label>
           </div>
 
           <!-- BILLING -->

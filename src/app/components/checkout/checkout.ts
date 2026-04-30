@@ -157,44 +157,80 @@ export class Checkout implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    console.log('Form Data:', this.checkoutFormGroup.value);
+  onSubmit(){
+    console.log("Handling the submit button");
+    console.log(this.checkoutFormGroup.get('customer')?.value);
+    console.log("the email address is " + this.checkoutFormGroup.get('customer')?.value.email);
+
+    console.log("The shipping address country is " + this.checkoutFormGroup.get('shippingAddress')?.value.country);
+    console.log("The shipping address state is " + this.checkoutFormGroup.get('shippingAddress')?.value.state);
   }
 
-  copyShippingToBilling(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
 
-    if (checkbox.checked) {
-      const shippingAddress = this.checkoutFormGroup.get('shippingAddress')?.value;
-      this.checkoutFormGroup.get('billingAddress')?.setValue({
-        street: shippingAddress.street,
-        city: shippingAddress.city,
-        state: shippingAddress.state,
-        country: shippingAddress.country,
-        zipCode: shippingAddress.zipCode,
-      });
-      
-      this.billingStates = [...this.shippingStates];
-    } else {
-      const currentCountry = this.checkoutFormGroup.get('billingAddress.country')?.value;
-      this.checkoutFormGroup.get('billingAddress')?.reset({
-        street: '',
-        city: '',
-        state: '',
-        country: currentCountry,
-        zipCode: '',
-      });
-
-      if (currentCountry) {
-        const selectedCountry = this.countries.find(c => c.code === currentCountry);
-        if (selectedCountry) {
-          this.loadStatesForAddress('billingAddress', selectedCountry.code);
+copyShippingToBilling(event: any) {
+  const shippingAddress = this.checkoutFormGroup.get('shippingAddress') as FormGroup;
+  const billingAddress = this.checkoutFormGroup.get('billingAddress') as FormGroup;
+  
+  if (event.target.checked) {
+    const shippingValues = shippingAddress.value;
+    const shippingCountryCode = shippingValues.country;
+    
+    // Copy all shipping values to billing
+    billingAddress.patchValue({
+      street: shippingValues.street,
+      city: shippingValues.city,
+      zipCode: shippingValues.zipCode,
+      country: shippingCountryCode,
+      state: shippingValues.state  // This will copy the state.id value
+    });
+    
+    // Load states from server if country exists
+    if (shippingCountryCode) {
+      this.ismaCart.getStates(shippingCountryCode).subscribe({
+        next: (states: State[]) => {
+          this.billingStates = states;
+          
+          // After states loaded, verify the copied state.id exists in the loaded states
+          const copiedStateId = shippingValues.state;
+          if (copiedStateId && states.some(s => s.id === copiedStateId)) {
+            // State already set from patchValue, just keep it
+            console.log('State copied successfully:', copiedStateId);
+          } else if (copiedStateId) {
+            // State doesn't exist in loaded states, clear it
+            billingAddress.get('state')?.setValue('');
+          }
+        },
+        error: (error) => {
+          console.error('Error loading billing states:', error);
+          this.billingStates = [];
+          billingAddress.get('state')?.setValue('');
         }
-      } else {
-        this.billingStates = [];
-      }
+      });
+    } else {
+      this.billingStates = [];
+    }
+  } else {
+    // Reset billing address
+    billingAddress.patchValue({
+      street: '',
+      city: '',
+      state: '',
+      zipCode: ''
+    });
+    
+    this.billingStates = [];
+    
+    // Keep billing country same as shipping for consistency
+    const shippingCountry = shippingAddress.get('country')?.value;
+    if (shippingCountry) {
+      billingAddress.get('country')?.setValue(shippingCountry, { emitEvent: false });
+    } else {
+      billingAddress.get('country')?.setValue('');
     }
   }
+} 
+  
+
 
   updateCreditCardMonths(): void {
     const selectedYear: number = Number(
