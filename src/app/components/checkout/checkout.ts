@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { IsmaCart } from '../../services/isma-cart.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -13,6 +14,9 @@ import { State } from '../../common/state';
   styleUrls: ['./checkout.css'],
 })
 export class Checkout implements OnInit {
+
+   
+
   totalPrice: number = 0;
   totalQuantity: number = 0;
 
@@ -28,13 +32,22 @@ export class Checkout implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private ismaCart: IsmaCart,
-  ) { }
+    private cartService: CartService
 
+    
+
+  ) { 
+    // review cart data these should be OBSERVABLES, not plain values
+   this.reviewCartDetails();
+  }
+  
   ngOnInit(): void {
     this.initForm();
     this.initCreditCardData();
     this.loadCountries(); // ⬅ load first
   }
+
+  
 
   private initForm(): void {
     this.checkoutFormGroup = this.formBuilder.group({
@@ -215,4 +228,17 @@ export class Checkout implements OnInit {
       this.creditCardMonths = data;
     });
   }
+
+  // review cart details to subscribe to the observables and update total price and quantity
+  reviewCartDetails() {
+    // subscribe to the cart totalPrice and totalQuantity observables
+    this.cartService.totalPrice.subscribe(totalPrice => {
+      this.totalPrice = totalPrice;
+    });
+    // subscribe to the cart totalQuantity observable
+    this.cartService.totalQuantity.subscribe(totalQuantity => {
+      this.totalQuantity = totalQuantity;
+    });
+  }
+
 }

@@ -10,83 +10,69 @@
             <h4 class="section-title">Customer Information</h4>
 
             <div class="form-group">
-              <label>First Name <span class="required-star">*</span></label>
+              <label>First Name *</label>
               <input
-                type="text"
                 class="form-control"
                 formControlName="firstName"
                 [class.is-invalid]="firstName?.invalid && firstName?.touched"
-                [class.is-valid]="firstName?.valid && firstName?.touched"
-                placeholder="John"
+                placeholder=""
               />
               <div
                 class="text-danger"
                 *ngIf="firstName?.invalid && firstName?.touched"
               >
                 <small *ngIf="firstName?.errors?.['required']"
-                  >⚠️ First name is required</small
+                  >First name is required</small
                 >
                 <small *ngIf="firstName?.errors?.['minlength']"
-                  >⚠️ Minimum 2 characters required</small
+                  >Minimum 2 characters required</small
                 >
                 <small *ngIf="firstName?.errors?.['pattern']"
-                  >⚠️ Only letters allowed</small
+                  >Only letters allowed</small
                 >
-              </div>
-              <div class="valid-feedback" *ngIf="firstName?.valid && firstName?.touched">
-                ✓ Looks good!
               </div>
             </div>
 
             <div class="form-group">
-              <label>Last Name <span class="required-star">*</span></label>
+              <label>Last Name *</label>
               <input
-                type="text"
                 class="form-control"
                 formControlName="lastName"
                 [class.is-invalid]="lastName?.invalid && lastName?.touched"
-                [class.is-valid]="lastName?.valid && lastName?.touched"
-                placeholder="Doe"
+                placeholder=""
               />
               <div
                 class="text-danger"
                 *ngIf="lastName?.invalid && lastName?.touched"
               >
                 <small *ngIf="lastName?.errors?.['required']"
-                  >⚠️ Last name is required</small
+                  >Last name is required</small
                 >
                 <small *ngIf="lastName?.errors?.['minlength']"
-                  >⚠️ Minimum 2 characters required</small
+                  >Minimum 2 characters required</small
                 >
                 <small *ngIf="lastName?.errors?.['pattern']"
-                  >⚠️ Only letters allowed</small
+                  >Only letters allowed</small
                 >
-              </div>
-              <div class="valid-feedback" *ngIf="lastName?.valid && lastName?.touched">
-                ✓ Looks good!
               </div>
             </div>
 
             <div class="form-group">
-              <label>Email <span class="required-star">*</span></label>
+              <label>Email *</label>
               <input
                 type="email"
                 class="form-control"
                 formControlName="email"
                 [class.is-invalid]="email?.invalid && email?.touched"
-                [class.is-valid]="email?.valid && email?.touched"
-                placeholder="john.doe@example.com"
+                placeholder="example@email.com"
               />
               <div class="text-danger" *ngIf="email?.invalid && email?.touched">
                 <small *ngIf="email?.errors?.['required']"
-                  >⚠️ Email is required</small
+                  >Email is required</small
                 >
                 <small *ngIf="email?.errors?.['email']"
-                  >⚠️ Please enter a valid email address</small
+                  >Please enter a valid email address</small
                 >
-              </div>
-              <div class="valid-feedback" *ngIf="email?.valid && email?.touched">
-                ✓ Valid email!
               </div>
             </div>
           </div>
@@ -97,43 +83,32 @@
 
             <div class="form-row">
               <div class="form-group full">
-                <label>Street <span class="required-star">*</span></label>
+                <label>Street *</label>
                 <input
-                  type="text"
                   class="form-control"
                   formControlName="street"
                   [class.is-invalid]="
                     shippingStreet?.invalid && shippingStreet?.touched
                   "
-                  [class.is-valid]="
-                    shippingStreet?.valid && shippingStreet?.touched
-                  "
-                  placeholder="123 Main Street"
+                  placeholder="123 Main St"
                 />
                 <div
                   class="text-danger"
                   *ngIf="shippingStreet?.invalid && shippingStreet?.touched"
                 >
                   <small *ngIf="shippingStreet?.errors?.['required']"
-                    >⚠️ Street address is required</small
+                    >Street address is required</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="shippingStreet?.valid && shippingStreet?.touched">
-                  ✓ Valid address
                 </div>
               </div>
 
               <div class="form-group">
-                <label>City <span class="required-star">*</span></label>
+                <label>City *</label>
                 <input
-                  type="text"
                   class="form-control"
                   formControlName="city"
                   [class.is-invalid]="
                     shippingCity?.invalid && shippingCity?.touched
-                  "
-                  [class.is-valid]="
-                    shippingCity?.valid && shippingCity?.touched
                   "
                   placeholder="New York"
                 />
@@ -142,17 +117,15 @@
                   *ngIf="shippingCity?.invalid && shippingCity?.touched"
                 >
                   <small *ngIf="shippingCity?.errors?.['required']"
-                    >⚠️ City is required</small
+                    >City is required</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="shippingCity?.valid && shippingCity?.touched">
-                  ✓ Valid city
                 </div>
               </div>
 
-              <!-- ENHANCED STATE/PROVINCE SELECT -->
               <div class="form-group">
-                <label>State/Province <span class="required-star">*</span></label>
+                <label
+                  >State/Province <span class="required-star">*</span></label
+                >
 
                 <div
                   class="select-wrapper"
@@ -173,9 +146,16 @@
                       shippingState?.valid && shippingState?.touched
                     "
                   >
-                    <option value="" disabled selected class="placeholder-option">
+                    <!-- Placeholder option -->
+                    <option
+                      value=""
+                      disabled
+                      selected
+                      class="placeholder-option"
+                    >
                       — Please select your state/province —
                     </option>
+
                     <option
                       *ngFor="let state of shippingStates"
                       [value]="state.id"
@@ -212,88 +192,42 @@
                     >⚠️ State/Province is required</small
                   >
                 </div>
-                <div class="valid-feedback" *ngIf="shippingState?.valid && shippingState?.touched">
-                  ✓ Valid state/province
-                </div>
               </div>
 
-              <!-- ENHANCED COUNTRY SELECT -->
               <div class="form-group">
-                <label>Country <span class="required-star">*</span></label>
-                
-                <div
-                  class="select-wrapper"
+                <label>Country *</label>
+                <select
+                  class="form-control custom-select"
+                  formControlName="country"
                   [class.is-invalid]="
                     shippingCountry?.invalid && shippingCountry?.touched
                   "
-                  [class.is-valid]="
-                    shippingCountry?.valid && shippingCountry?.touched
-                  "
                 >
-                  <select
-                    class="form-control custom-select"
-                    formControlName="country"
-                    [class.is-invalid]="
-                      shippingCountry?.invalid && shippingCountry?.touched
-                    "
-                    [class.is-valid]="
-                      shippingCountry?.valid && shippingCountry?.touched
-                    "
+                  <option value="" disabled>Select country</option>
+                  <option
+                    *ngFor="let country of countries"
+                    [value]="country.code"
                   >
-                    <option value="" disabled selected class="placeholder-option">
-                      — Select your country —
-                    </option>
-                    <option
-                      *ngFor="let country of countries"
-                      [value]="country.code"
-                    >
-                      {{ country.name }}
-                    </option>
-                  </select>
-
-                  <div class="custom-arrow">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 9L12 15L18 9"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
+                    {{ country.name }}
+                  </option>
+                </select>
                 <div
                   class="text-danger"
                   *ngIf="shippingCountry?.invalid && shippingCountry?.touched"
                 >
                   <small *ngIf="shippingCountry?.errors?.['required']"
-                    >⚠️ Country is required</small
+                    >Country is required</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="shippingCountry?.valid && shippingCountry?.touched">
-                  ✓ Valid country
                 </div>
               </div>
 
               <div class="form-group">
-                <label>Zip/Postal Code <span class="required-star">*</span></label>
+                <label>Zip/Postal Code *</label>
                 <input
-                  type="text"
                   class="form-control"
                   formControlName="zipCode"
                   [class.is-invalid]="
                     shippingZipCode?.invalid && shippingZipCode?.touched
-                  "
-                  [class.is-valid]="
-                    shippingZipCode?.valid && shippingZipCode?.touched
                   "
                   placeholder="10001"
                 />
@@ -302,17 +236,14 @@
                   *ngIf="shippingZipCode?.invalid && shippingZipCode?.touched"
                 >
                   <small *ngIf="shippingZipCode?.errors?.['required']"
-                    >⚠️ Zip code is required</small
+                    >Zip code is required</small
                   >
                   <small *ngIf="shippingZipCode?.errors?.['minlength']"
-                    >⚠️ Minimum 4 characters required</small
+                    >Minimum 4 characters required</small
                   >
                   <small *ngIf="shippingZipCode?.errors?.['maxlength']"
-                    >⚠️ Maximum 10 characters allowed</small
+                    >Maximum 10 characters allowed</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="shippingZipCode?.valid && shippingZipCode?.touched">
-                  ✓ Valid zip code
                 </div>
               </div>
             </div>
@@ -340,43 +271,32 @@
 
             <div class="form-row">
               <div class="form-group full">
-                <label>Street <span class="required-star">*</span></label>
+                <label>Street *</label>
                 <input
-                  type="text"
                   class="form-control"
                   formControlName="street"
                   [class.is-invalid]="
                     billingStreet?.invalid && billingStreet?.touched
                   "
-                  [class.is-valid]="
-                    billingStreet?.valid && billingStreet?.touched
-                  "
-                  placeholder="123 Main Street"
+                  placeholder="123 Main St"
                 />
                 <div
                   class="text-danger"
                   *ngIf="billingStreet?.invalid && billingStreet?.touched"
                 >
                   <small *ngIf="billingStreet?.errors?.['required']"
-                    >⚠️ Street address is required</small
+                    >Street address is required</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="billingStreet?.valid && billingStreet?.touched">
-                  ✓ Valid address
                 </div>
               </div>
 
               <div class="form-group">
-                <label>City <span class="required-star">*</span></label>
+                <label>City *</label>
                 <input
-                  type="text"
                   class="form-control"
                   formControlName="city"
                   [class.is-invalid]="
                     billingCity?.invalid && billingCity?.touched
-                  "
-                  [class.is-valid]="
-                    billingCity?.valid && billingCity?.touched
                   "
                   placeholder="New York"
                 />
@@ -385,157 +305,72 @@
                   *ngIf="billingCity?.invalid && billingCity?.touched"
                 >
                   <small *ngIf="billingCity?.errors?.['required']"
-                    >⚠️ City is required</small
+                    >City is required</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="billingCity?.valid && billingCity?.touched">
-                  ✓ Valid city
                 </div>
               </div>
 
-              <!-- ENHANCED BILLING STATE SELECT -->
               <div class="form-group">
-                <label>State/Province <span class="required-star">*</span></label>
-                
-                <div
-                  class="select-wrapper"
+                <label>State/Province *</label>
+                <select
+                  class="form-control"
+                  formControlName="state"
                   [class.is-invalid]="
                     billingState?.invalid && billingState?.touched
                   "
-                  [class.is-valid]="
-                    billingState?.valid && billingState?.touched
-                  "
                 >
-                  <select
-                    class="form-control custom-select"
-                    formControlName="state"
-                    [class.is-invalid]="
-                      billingState?.invalid && billingState?.touched
-                    "
-                    [class.is-valid]="
-                      billingState?.valid && billingState?.touched
-                    "
+                  <option value="" disabled>Select a state</option>
+                  <option
+                    *ngFor="let state of billingStates"
+                    [value]="state.id"
                   >
-                    <option value="" disabled selected class="placeholder-option">
-                      — Please select your state/province —
-                    </option>
-                    <option
-                      *ngFor="let state of billingStates"
-                      [value]="state.id"
-                    >
-                      {{ state.name }}
-                    </option>
-                  </select>
-
-                  <div class="custom-arrow">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 9L12 15L18 9"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
+                    {{ state.name }}
+                  </option>
+                </select>
                 <div
                   class="text-danger"
                   *ngIf="billingState?.invalid && billingState?.touched"
                 >
                   <small *ngIf="billingState?.errors?.['required']"
-                    >⚠️ State is required</small
+                    >State is required</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="billingState?.valid && billingState?.touched">
-                  ✓ Valid state/province
                 </div>
               </div>
 
-              <!-- ENHANCED BILLING COUNTRY SELECT -->
               <div class="form-group">
-                <label>Country <span class="required-star">*</span></label>
-                
-                <div
-                  class="select-wrapper"
+                <label>Country *</label>
+                <select
+                  class="form-control custom-select"
+                  formControlName="country"
                   [class.is-invalid]="
                     billingCountry?.invalid && billingCountry?.touched
                   "
-                  [class.is-valid]="
-                    billingCountry?.valid && billingCountry?.touched
-                  "
                 >
-                  <select
-                    class="form-control custom-select"
-                    formControlName="country"
-                    [class.is-invalid]="
-                      billingCountry?.invalid && billingCountry?.touched
-                    "
-                    [class.is-valid]="
-                      billingCountry?.valid && billingCountry?.touched
-                    "
+                  <option value="" disabled>Select country</option>
+                  <option
+                    *ngFor="let country of countries"
+                    [value]="country.code"
                   >
-                    <option value="" disabled selected class="placeholder-option">
-                      — Select your country —
-                    </option>
-                    <option
-                      *ngFor="let country of countries"
-                      [value]="country.code"
-                    >
-                      {{ country.name }}
-                    </option>
-                  </select>
-
-                  <div class="custom-arrow">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 9L12 15L18 9"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
+                    {{ country.name }}
+                  </option>
+                </select>
                 <div
                   class="text-danger"
                   *ngIf="billingCountry?.invalid && billingCountry?.touched"
                 >
                   <small *ngIf="billingCountry?.errors?.['required']"
-                    >⚠️ Country is required</small
+                    >Country is required</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="billingCountry?.valid && billingCountry?.touched">
-                  ✓ Valid country
                 </div>
               </div>
 
               <div class="form-group">
-                <label>Zip/Postal Code <span class="required-star">*</span></label>
+                <label>Zip/Postal Code *</label>
                 <input
-                  type="text"
                   class="form-control"
                   formControlName="zipCode"
                   [class.is-invalid]="
                     billingZipCode?.invalid && billingZipCode?.touched
-                  "
-                  [class.is-valid]="
-                    billingZipCode?.valid && billingZipCode?.touched
                   "
                   placeholder="10001"
                 />
@@ -544,17 +379,14 @@
                   *ngIf="billingZipCode?.invalid && billingZipCode?.touched"
                 >
                   <small *ngIf="billingZipCode?.errors?.['required']"
-                    >⚠️ Zip code is required</small
+                    >Zip code is required</small
                   >
                   <small *ngIf="billingZipCode?.errors?.['minlength']"
-                    >⚠️ Minimum 4 characters required</small
+                    >Minimum 4 characters required</small
                   >
                   <small *ngIf="billingZipCode?.errors?.['maxlength']"
-                    >⚠️ Maximum 10 characters allowed</small
+                    >Maximum 10 characters allowed</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="billingZipCode?.valid && billingZipCode?.touched">
-                  ✓ Valid zip code
                 </div>
               </div>
             </div>
@@ -564,72 +396,37 @@
           <div formGroupName="creditCard" class="form-section">
             <h4 class="section-title">Payment Information</h4>
 
-            <!-- ENHANCED CARD TYPE SELECT -->
             <div class="form-group">
-              <label>Card Type <span class="required-star">*</span></label>
-              
-              <div
-                class="select-wrapper"
+              <label>Card Type *</label>
+              <select
+                class="form-control custom-select"
+                formControlName="cardType"
                 [class.is-invalid]="cardType?.invalid && cardType?.touched"
-                [class.is-valid]="cardType?.valid && cardType?.touched"
               >
-                <select
-                  class="form-control custom-select"
-                  formControlName="cardType"
-                  [class.is-invalid]="cardType?.invalid && cardType?.touched"
-                  [class.is-valid]="cardType?.valid && cardType?.touched"
-                >
-                  <option value="" disabled selected class="placeholder-option">
-                    — Select card type —
-                  </option>
-                  <option value="Visa">Visa</option>
-                  <option value="Mastercard">Mastercard</option>
-                  <option value="American Express">American Express</option>
-                  <option value="Discover">Discover</option>
-                  <option value="JCB">JCB</option>
-                  <option value="Diners Club">Diners Club</option>
-                </select>
-
-                <div class="custom-arrow">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 9L12 15L18 9"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </div>
-              </div>
-
+                <option value="" disabled>Select card type</option>
+                <option value="Visa">Visa</option>
+                <option value="Mastercard">Mastercard</option>
+                <option value="American Express">American Express</option>
+                <option value="Discover">Discover</option>
+                <option value="JCB">JCB</option>
+                <option value="Diners Club">Diners Club</option>
+              </select>
               <div
                 class="text-danger"
                 *ngIf="cardType?.invalid && cardType?.touched"
               >
                 <small *ngIf="cardType?.errors?.['required']"
-                  >⚠️ Card type is required</small
+                  >Card type is required</small
                 >
-              </div>
-              <div class="valid-feedback" *ngIf="cardType?.valid && cardType?.touched">
-                ✓ Valid card type
               </div>
             </div>
 
             <div class="form-group">
-              <label>Name on Card <span class="required-star">*</span></label>
+              <label>Name on Card *</label>
               <input
-                type="text"
                 class="form-control"
                 formControlName="nameOnCard"
                 [class.is-invalid]="nameOnCard?.invalid && nameOnCard?.touched"
-                [class.is-valid]="nameOnCard?.valid && nameOnCard?.touched"
                 placeholder="JOHN DOE"
               />
               <div
@@ -637,26 +434,21 @@
                 *ngIf="nameOnCard?.invalid && nameOnCard?.touched"
               >
                 <small *ngIf="nameOnCard?.errors?.['required']"
-                  >⚠️ Name on card is required</small
+                  >Name on card is required</small
                 >
                 <small *ngIf="nameOnCard?.errors?.['minlength']"
-                  >⚠️ Minimum 3 characters required</small
+                  >Minimum 3 characters required</small
                 >
-              </div>
-              <div class="valid-feedback" *ngIf="nameOnCard?.valid && nameOnCard?.touched">
-                ✓ Valid name
               </div>
             </div>
 
             <div class="form-group">
-              <label>Card Number <span class="required-star">*</span></label>
+              <label>Card Number *</label>
               <input
-                type="text"
                 class="form-control"
                 formControlName="cardNumber"
                 [class.is-invalid]="cardNumber?.invalid && cardNumber?.touched"
-                [class.is-valid]="cardNumber?.valid && cardNumber?.touched"
-                placeholder="1234 5678 9012 3456"
+                placeholder="1234567890123456"
                 maxlength="16"
               />
               <div
@@ -664,28 +456,21 @@
                 *ngIf="cardNumber?.invalid && cardNumber?.touched"
               >
                 <small *ngIf="cardNumber?.errors?.['required']"
-                  >⚠️ Card number is required</small
+                  >Card number is required</small
                 >
                 <small *ngIf="cardNumber?.errors?.['pattern']"
-                  >⚠️ Must be 16 digits (numbers only)</small
+                  >Must be 16 digits (numbers only)</small
                 >
-              </div>
-              <div class="valid-feedback" *ngIf="cardNumber?.valid && cardNumber?.touched">
-                ✓ Valid card number
               </div>
             </div>
 
             <div class="form-group">
-              <label>CVV/Security Code <span class="required-star">*</span></label>
+              <label>CVV/Security Code *</label>
               <input
-                type="password"
                 class="form-control"
                 formControlName="securityCode"
                 [class.is-invalid]="
                   securityCode?.invalid && securityCode?.touched
-                "
-                [class.is-valid]="
-                  securityCode?.valid && securityCode?.touched
                 "
                 placeholder="123"
                 maxlength="4"
@@ -695,145 +480,64 @@
                 *ngIf="securityCode?.invalid && securityCode?.touched"
               >
                 <small *ngIf="securityCode?.errors?.['required']"
-                  >⚠️ Security code is required</small
+                  >Security code is required</small
                 >
                 <small *ngIf="securityCode?.errors?.['pattern']"
-                  >⚠️ Must be 3 or 4 digits</small
+                  >Must be 3 or 4 digits</small
                 >
-              </div>
-              <div class="valid-feedback" *ngIf="securityCode?.valid && securityCode?.touched">
-                ✓ Valid security code
               </div>
             </div>
 
             <div class="form-row">
-              <!-- ENHANCED EXPIRATION MONTH SELECT -->
               <div class="form-group">
-                <label>Expiration Month <span class="required-star">*</span></label>
-                
-                <div
-                  class="select-wrapper"
+                <label>Expiration Month *</label>
+                <select
+                  class="form-control custom-select"
+                  formControlName="expirationMonth"
                   [class.is-invalid]="
                     expirationMonth?.invalid && expirationMonth?.touched
                   "
-                  [class.is-valid]="
-                    expirationMonth?.valid && expirationMonth?.touched
-                  "
                 >
-                  <select
-                    class="form-control custom-select"
-                    formControlName="expirationMonth"
-                    [class.is-invalid]="
-                      expirationMonth?.invalid && expirationMonth?.touched
-                    "
-                    [class.is-valid]="
-                      expirationMonth?.valid && expirationMonth?.touched
-                    "
+                  <option value="" disabled>MM</option>
+                  <option
+                    *ngFor="let month of creditCardMonths"
+                    [value]="month"
                   >
-                    <option value="" disabled selected class="placeholder-option">
-                      — Month —
-                    </option>
-                    <option
-                      *ngFor="let month of creditCardMonths"
-                      [value]="month"
-                    >
-                      {{ month }}
-                    </option>
-                  </select>
-
-                  <div class="custom-arrow">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 9L12 15L18 9"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
+                    {{ month }}
+                  </option>
+                </select>
                 <div
                   class="text-danger"
                   *ngIf="expirationMonth?.invalid && expirationMonth?.touched"
                 >
                   <small *ngIf="expirationMonth?.errors?.['required']"
-                    >⚠️ Expiration month is required</small
+                    >Expiration month is required</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="expirationMonth?.valid && expirationMonth?.touched">
-                  ✓ Valid month
                 </div>
               </div>
 
-              <!-- ENHANCED EXPIRATION YEAR SELECT -->
               <div class="form-group">
-                <label>Expiration Year <span class="required-star">*</span></label>
-                
-                <div
-                  class="select-wrapper"
+                <label>Expiration Year *</label>
+                <select
+                  class="form-control custom-select"
+                  formControlName="expirationYear"
                   [class.is-invalid]="
                     expirationYear?.invalid && expirationYear?.touched
                   "
-                  [class.is-valid]="
-                    expirationYear?.valid && expirationYear?.touched
-                  "
+                  (change)="updateCreditCardMonths()"
                 >
-                  <select
-                    class="form-control custom-select"
-                    formControlName="expirationYear"
-                    [class.is-invalid]="
-                      expirationYear?.invalid && expirationYear?.touched
-                    "
-                    [class.is-valid]="
-                      expirationYear?.valid && expirationYear?.touched
-                    "
-                    (change)="updateCreditCardMonths()"
-                  >
-                    <option value="" disabled selected class="placeholder-option">
-                      — Year —
-                    </option>
-                    <option *ngFor="let year of creditCardYears" [value]="year">
-                      {{ year }}
-                    </option>
-                  </select>
-
-                  <div class="custom-arrow">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 9L12 15L18 9"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
+                  <option value="" disabled>YYYY</option>
+                  <option *ngFor="let year of creditCardYears" [value]="year">
+                    {{ year }}
+                  </option>
+                </select>
                 <div
                   class="text-danger"
                   *ngIf="expirationYear?.invalid && expirationYear?.touched"
                 >
                   <small *ngIf="expirationYear?.errors?.['required']"
-                    >⚠️ Expiration year is required</small
+                    >Expiration year is required</small
                   >
-                </div>
-                <div class="valid-feedback" *ngIf="expirationYear?.valid && expirationYear?.touched">
-                  ✓ Valid year
                 </div>
               </div>
             </div>
@@ -841,7 +545,7 @@
 
           <!-- ORDER SUMMARY -->
           <div class="order-summary">
-            <h4 class="section-title" style="color: white;">Order Summary</h4>
+            <h4 class="section-title">Order Summary</h4>
 
             <div class="summary-row">
               <span>Total Quantity:</span>
