@@ -5,7 +5,6 @@ import { IsmaCart } from '../../services/isma-cart.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { CartService } from '../../services/cart.service';
-import { CheckoutService } from '../../services/checkout.service';
 
 @Component({
   selector: 'app-checkout',
@@ -33,11 +32,12 @@ export class Checkout implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private ismaCart: IsmaCart,
-    private cartService: CartService,
-    private checkoutService: CheckoutService,
-    private Router: Router
-   ) 
-{ 
+    private cartService: CartService
+    
+
+    
+
+  ) { 
     // review cart data these should be OBSERVABLES, not plain values
    this.reviewCartDetails();
   }
@@ -181,26 +181,16 @@ export class Checkout implements OnInit {
       },
     });
   }
+
   onSubmit() {
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
-      return ;
-
+      console.log("Form is invalid");
+      return;
     }
-    // Prepare the order data
-    // For simplicity, we will just log the form data and cart details here
-    // create order object
-    // set up orderItems from cartItems it means we need to map CartItem to OrderItem
-   // populate order with customer, shipping, billing and payment details
-   // populate purchase with order and orderItems
-    // call REST API via CheckoutService
-    // handle response
-      console.log('Form Submitted', this.checkoutFormGroup.value);
-      console.log('Total Price:', this.totalPrice);
-      console.log('Total Quantity:', this.totalQuantity);
 
-   
-
+    console.log("Form is valid ✅");
+    console.log(this.checkoutFormGroup.value);
   }
 
   copyShippingToBilling(event: any) {
@@ -239,6 +229,7 @@ export class Checkout implements OnInit {
       this.creditCardMonths = data;
     });
   }
+
 
   // review cart details to subscribe to the observables and update total price and quantity
   reviewCartDetails() {
