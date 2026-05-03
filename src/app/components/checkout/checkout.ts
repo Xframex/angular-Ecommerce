@@ -5,6 +5,7 @@ import { IsmaCart } from '../../services/isma-cart.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { CartService } from '../../services/cart.service';
+import { CheckoutService } from '../../services/checkout.service';
 
 @Component({
   selector: 'app-checkout',
@@ -32,8 +33,9 @@ export class Checkout implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private ismaCart: IsmaCart,
-    private cartService: CartService
-    
+    private cartService: CartService,
+    private CheckoutService: CheckoutService
+
 
     
 
@@ -185,12 +187,14 @@ export class Checkout implements OnInit {
   onSubmit() {
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
-      console.log("Form is invalid");
-      return;
+       return;
     }
 
-    console.log("Form is valid ✅");
-    console.log(this.checkoutFormGroup.value);
+    // Set up order
+    let 
+    //
+
+    // Call the checkout service to place the order
   }
 
   copyShippingToBilling(event: any) {
