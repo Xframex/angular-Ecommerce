@@ -5,6 +5,7 @@ import { IsmaCart } from '../../services/isma-cart.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { CartService } from '../../services/cart.service';
+import { CheckoutService } from '../../services/checkout.service';
 
 @Component({
   selector: 'app-checkout',
@@ -32,11 +33,11 @@ export class Checkout implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private ismaCart: IsmaCart,
-    private cartService: CartService
-
-    
-
-  ) { 
+    private cartService: CartService,
+    private checkoutService: CheckoutService,
+    private Router: Router
+   ) 
+{ 
     // review cart data these should be OBSERVABLES, not plain values
    this.reviewCartDetails();
   }
@@ -180,12 +181,11 @@ export class Checkout implements OnInit {
       },
     });
   }
-
   onSubmit() {
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
-      console.log("Form is invalid");
-      return;
+      return ;
+
     }
 
     console.log("Form is valid ✅");
