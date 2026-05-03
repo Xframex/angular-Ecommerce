@@ -187,9 +187,20 @@ export class Checkout implements OnInit {
       return ;
 
     }
+    // Prepare the order data
+    // For simplicity, we will just log the form data and cart details here
+    // create order object
+    // set up orderItems from cartItems it means we need to map CartItem to OrderItem
+   // populate order with customer, shipping, billing and payment details
+   // populate purchase with order and orderItems
+    // call REST API via CheckoutService
+    // handle response
+      console.log('Form Submitted', this.checkoutFormGroup.value);
+      console.log('Total Price:', this.totalPrice);
+      console.log('Total Quantity:', this.totalQuantity);
 
-    console.log("Form is valid ✅");
-    console.log(this.checkoutFormGroup.value);
+   
+
   }
 
   copyShippingToBilling(event: any) {
