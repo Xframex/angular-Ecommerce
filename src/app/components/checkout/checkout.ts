@@ -6,6 +6,9 @@ import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { CartService } from '../../services/cart.service';
 import { CheckoutService } from '../../services/checkout.service';
+import { Order } from '../../common/order';
+import { OrderItem } from '../../common/order-item';
+import { Purchase } from '../../common/purchase';
 
 @Component({
   selector: 'app-checkout',
@@ -34,10 +37,8 @@ export class Checkout implements OnInit {
     private formBuilder: FormBuilder,
     private ismaCart: IsmaCart,
     private cartService: CartService,
-    private CheckoutService: CheckoutService
+    private checkoutService: CheckoutService
 
-
-    
 
   ) { 
     // review cart data these should be OBSERVABLES, not plain values
@@ -190,11 +191,38 @@ export class Checkout implements OnInit {
        return;
     }
 
-    // Set up order
-    let 
-    //
+    // Set up order from cart details - these should be OBSERVABLES, not plain values
+    let order = new Order(this.totalQuantity, this.totalPrice);
 
-    // Call the checkout service to place the order
+    
+    // Get Cart Items from CartService
+    const cartItems = this.cartService.cartItems; 
+
+    // create orderItems from cartItems by loop and convert each CartItem to OrderItem
+    // let orderItems: OrderItem[] = [];
+    // for (let i = 0; i < cartItems.length; i++) {
+    // orderItems[i] = new OrderItem(cartItems[i]);
+    //}
+
+    let orderItems: OrderItem[] = cartItems.map(tempCartItem => new OrderItem(tempCartItem));
+
+    // Set up purchase - this will be sent to the backend
+    let purchase = new Purchase();
+    purchase.customer = this.checkoutFormGroup.controls['customer'].value;
+
+    purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
+    const shippingState: State = JSON.parse(JSON.stringify(this.checkoutFormGroup.get('shippingAddress.state')?.value));
+    const shippingCountry: Country = JSON.parse(JSON.stringify(this.checkoutFormGroup.get('shippingAddress.country')?.value));
+    purchase.shippingAddress.state = shippingState.name;
+    purchase.shippingAddress.country = shippingCountry.name;
+    purchase.billingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
+
+    // populate billing state and country names
+    purchase.billingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
+    const billingState: State = JSON.parse(JSON.stringify(this.checkoutFormGroup.get('billingAddress.state')?.value));
+    const billingCountry: Country = JSON.parse(JSON.stringify(this.checkoutFormGroup.get('billingAddress.country')?.value));
+    purchase.billingAddress.state = billingState.name;
+    purchase.billingAddress.country = billingCountry.name;
   }
 
   copyShippingToBilling(event: any) {

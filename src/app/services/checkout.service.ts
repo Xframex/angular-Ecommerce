@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class Checkout {
+export class CheckoutService {
 
   private purchaseUrl = 'http://localhost:8080/api/checkout/purchase';
 
