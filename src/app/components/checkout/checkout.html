@@ -1,0 +1,575 @@
+<div class="main-content page-m">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      <div class="checkout-card">
+        <h2 class="checkout-title">🛒 Checkout</h2>
+
+        <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
+          <!-- CUSTOMER SECTION -->
+          <div formGroupName="customer" class="form-section">
+            <h4 class="section-title">Customer Information</h4>
+
+            <div class="form-group">
+              <label>First Name *</label>
+              <input
+                class="form-control"
+                formControlName="firstName"
+                [class.is-invalid]="firstName?.invalid && firstName?.touched"
+                placeholder=""
+              />
+              <div
+                class="text-danger"
+                *ngIf="firstName?.invalid && firstName?.touched"
+              >
+                <small *ngIf="firstName?.errors?.['required']"
+                  >First name is required</small
+                >
+                <small *ngIf="firstName?.errors?.['minlength']"
+                  >Minimum 2 characters required</small
+                >
+                <small *ngIf="firstName?.errors?.['pattern']"
+                  >Only letters allowed</small
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Last Name *</label>
+              <input
+                class="form-control"
+                formControlName="lastName"
+                [class.is-invalid]="lastName?.invalid && lastName?.touched"
+                placeholder=""
+              />
+              <div
+                class="text-danger"
+                *ngIf="lastName?.invalid && lastName?.touched"
+              >
+                <small *ngIf="lastName?.errors?.['required']"
+                  >Last name is required</small
+                >
+                <small *ngIf="lastName?.errors?.['minlength']"
+                  >Minimum 2 characters required</small
+                >
+                <small *ngIf="lastName?.errors?.['pattern']"
+                  >Only letters allowed</small
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Email *</label>
+              <input
+                type="email"
+                class="form-control"
+                formControlName="email"
+                [class.is-invalid]="email?.invalid && email?.touched"
+                placeholder="example@email.com"
+              />
+              <div class="text-danger" *ngIf="email?.invalid && email?.touched">
+                <small *ngIf="email?.errors?.['required']"
+                  >Email is required</small
+                >
+                <small *ngIf="email?.errors?.['email']"
+                  >Please enter a valid email address</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- SHIPPING ADDRESS SECTION -->
+          <div formGroupName="shippingAddress" class="form-section">
+            <h4 class="section-title">Shipping Address</h4>
+
+            <div class="form-row">
+              <div class="form-group full">
+                <label>Street *</label>
+                <input
+                  class="form-control"
+                  formControlName="street"
+                  [class.is-invalid]="
+                    shippingStreet?.invalid && shippingStreet?.touched
+                  "
+                  placeholder="123 Main St"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="shippingStreet?.invalid && shippingStreet?.touched"
+                >
+                  <small *ngIf="shippingStreet?.errors?.['required']"
+                    >Street address is required</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>City *</label>
+                <input
+                  class="form-control"
+                  formControlName="city"
+                  [class.is-invalid]="
+                    shippingCity?.invalid && shippingCity?.touched
+                  "
+                  placeholder="New York"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="shippingCity?.invalid && shippingCity?.touched"
+                >
+                  <small *ngIf="shippingCity?.errors?.['required']"
+                    >City is required</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label
+                  >State/Province <span class="required-star">*</span></label
+                >
+
+                <div
+                  class="select-wrapper"
+                  [class.is-invalid]="
+                    shippingState?.invalid && shippingState?.touched
+                  "
+                  [class.is-valid]="
+                    shippingState?.valid && shippingState?.touched
+                  "
+                >
+                  <select
+                    class="form-control custom-select"
+                    formControlName="state"
+                    [class.is-invalid]="
+                      shippingState?.invalid && shippingState?.touched
+                    "
+                    [class.is-valid]="
+                      shippingState?.valid && shippingState?.touched
+                    "
+                  >
+                    <!-- Placeholder option -->
+                    <option
+                      value=""
+                      disabled
+                      selected
+                      class="placeholder-option"
+                    >
+                      — Please select your state/province —
+                    </option>
+
+                    <option
+                      *ngFor="let state of shippingStates"
+                      [value]="state.id"
+                    >
+                      {{ state.name }}
+                    </option>
+                  </select>
+
+                  <!-- Custom Arrow Icon -->
+                  <div class="custom-arrow">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 9L12 15L18 9"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                <div
+                  class="text-danger"
+                  *ngIf="shippingState?.invalid && shippingState?.touched"
+                >
+                  <small *ngIf="shippingState?.errors?.['required']"
+                    >⚠️ State/Province is required</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Country *</label>
+                <select
+                  class="form-control custom-select"
+                  formControlName="country"
+                  [class.is-invalid]="
+                    shippingCountry?.invalid && shippingCountry?.touched
+                  "
+                >
+                  <option value="" disabled>Select country</option>
+                  <option
+                    *ngFor="let country of countries"
+                    [value]="country.code"
+                  >
+                    {{ country.name }}
+                  </option>
+                </select>
+                <div
+                  class="text-danger"
+                  *ngIf="shippingCountry?.invalid && shippingCountry?.touched"
+                >
+                  <small *ngIf="shippingCountry?.errors?.['required']"
+                    >Country is required</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Zip/Postal Code *</label>
+                <input
+                  class="form-control"
+                  formControlName="zipCode"
+                  [class.is-invalid]="
+                    shippingZipCode?.invalid && shippingZipCode?.touched
+                  "
+                  placeholder="10001"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="shippingZipCode?.invalid && shippingZipCode?.touched"
+                >
+                  <small *ngIf="shippingZipCode?.errors?.['required']"
+                    >Zip code is required</small
+                  >
+                  <small *ngIf="shippingZipCode?.errors?.['minlength']"
+                    >Minimum 4 characters required</small
+                  >
+                  <small *ngIf="shippingZipCode?.errors?.['maxlength']"
+                    >Maximum 10 characters allowed</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHECKBOX -->
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="sameAsShipping"
+              (change)="copyShippingToBilling($event)"
+              [disabled]="!shippingCountry?.value"
+            />
+            <label
+              for="sameAsShipping"
+              [class.disabled]="!shippingCountry?.value"
+            >
+              Billing address same as shipping
+            </label>
+          </div>
+
+          <!-- BILLING ADDRESS SECTION -->
+          <div formGroupName="billingAddress" class="form-section">
+            <h4 class="section-title">Billing Address</h4>
+
+            <div class="form-row">
+              <div class="form-group full">
+                <label>Street *</label>
+                <input
+                  class="form-control"
+                  formControlName="street"
+                  [class.is-invalid]="
+                    billingStreet?.invalid && billingStreet?.touched
+                  "
+                  placeholder="123 Main St"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="billingStreet?.invalid && billingStreet?.touched"
+                >
+                  <small *ngIf="billingStreet?.errors?.['required']"
+                    >Street address is required</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>City *</label>
+                <input
+                  class="form-control"
+                  formControlName="city"
+                  [class.is-invalid]="
+                    billingCity?.invalid && billingCity?.touched
+                  "
+                  placeholder="New York"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="billingCity?.invalid && billingCity?.touched"
+                >
+                  <small *ngIf="billingCity?.errors?.['required']"
+                    >City is required</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>State/Province *</label>
+                <select
+                  class="form-control"
+                  formControlName="state"
+                  [class.is-invalid]="
+                    billingState?.invalid && billingState?.touched
+                  "
+                >
+                  <option value="" disabled>Select a state</option>
+                  <option
+                    *ngFor="let state of billingStates"
+                    [value]="state.id"
+                  >
+                    {{ state.name }}
+                  </option>
+                </select>
+                <div
+                  class="text-danger"
+                  *ngIf="billingState?.invalid && billingState?.touched"
+                >
+                  <small *ngIf="billingState?.errors?.['required']"
+                    >State is required</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Country *</label>
+                <select
+                  class="form-control custom-select"
+                  formControlName="country"
+                  [class.is-invalid]="
+                    billingCountry?.invalid && billingCountry?.touched
+                  "
+                >
+                  <option value="" disabled>Select country</option>
+                  <option
+                    *ngFor="let country of countries"
+                    [value]="country.code"
+                  >
+                    {{ country.name }}
+                  </option>
+                </select>
+                <div
+                  class="text-danger"
+                  *ngIf="billingCountry?.invalid && billingCountry?.touched"
+                >
+                  <small *ngIf="billingCountry?.errors?.['required']"
+                    >Country is required</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Zip/Postal Code *</label>
+                <input
+                  class="form-control"
+                  formControlName="zipCode"
+                  [class.is-invalid]="
+                    billingZipCode?.invalid && billingZipCode?.touched
+                  "
+                  placeholder="10001"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="billingZipCode?.invalid && billingZipCode?.touched"
+                >
+                  <small *ngIf="billingZipCode?.errors?.['required']"
+                    >Zip code is required</small
+                  >
+                  <small *ngIf="billingZipCode?.errors?.['minlength']"
+                    >Minimum 4 characters required</small
+                  >
+                  <small *ngIf="billingZipCode?.errors?.['maxlength']"
+                    >Maximum 10 characters allowed</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PAYMENT SECTION -->
+          <div formGroupName="creditCard" class="form-section">
+            <h4 class="section-title">Payment Information</h4>
+
+            <div class="form-group">
+              <label>Card Type *</label>
+              <select
+                class="form-control custom-select"
+                formControlName="cardType"
+                [class.is-invalid]="cardType?.invalid && cardType?.touched"
+              >
+                <option value="" disabled>Select card type</option>
+                <option value="Visa">Visa</option>
+                <option value="Mastercard">Mastercard</option>
+                <option value="American Express">American Express</option>
+                <option value="Discover">Discover</option>
+                <option value="JCB">JCB</option>
+                <option value="Diners Club">Diners Club</option>
+              </select>
+              <div
+                class="text-danger"
+                *ngIf="cardType?.invalid && cardType?.touched"
+              >
+                <small *ngIf="cardType?.errors?.['required']"
+                  >Card type is required</small
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Name on Card *</label>
+              <input
+                class="form-control"
+                formControlName="nameOnCard"
+                [class.is-invalid]="nameOnCard?.invalid && nameOnCard?.touched"
+                placeholder="JOHN DOE"
+              />
+              <div
+                class="text-danger"
+                *ngIf="nameOnCard?.invalid && nameOnCard?.touched"
+              >
+                <small *ngIf="nameOnCard?.errors?.['required']"
+                  >Name on card is required</small
+                >
+                <small *ngIf="nameOnCard?.errors?.['minlength']"
+                  >Minimum 3 characters required</small
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Card Number *</label>
+              <input
+                class="form-control"
+                formControlName="cardNumber"
+                [class.is-invalid]="cardNumber?.invalid && cardNumber?.touched"
+                placeholder="1234567890123456"
+                maxlength="16"
+              />
+              <div
+                class="text-danger"
+                *ngIf="cardNumber?.invalid && cardNumber?.touched"
+              >
+                <small *ngIf="cardNumber?.errors?.['required']"
+                  >Card number is required</small
+                >
+                <small *ngIf="cardNumber?.errors?.['pattern']"
+                  >Must be 16 digits (numbers only)</small
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>CVV/Security Code *</label>
+              <input
+                class="form-control"
+                formControlName="securityCode"
+                [class.is-invalid]="
+                  securityCode?.invalid && securityCode?.touched
+                "
+                placeholder="123"
+                maxlength="4"
+              />
+              <div
+                class="text-danger"
+                *ngIf="securityCode?.invalid && securityCode?.touched"
+              >
+                <small *ngIf="securityCode?.errors?.['required']"
+                  >Security code is required</small
+                >
+                <small *ngIf="securityCode?.errors?.['pattern']"
+                  >Must be 3 or 4 digits</small
+                >
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Expiration Month *</label>
+                <select
+                  class="form-control custom-select"
+                  formControlName="expirationMonth"
+                  [class.is-invalid]="
+                    expirationMonth?.invalid && expirationMonth?.touched
+                  "
+                >
+                  <option value="" disabled>MM</option>
+                  <option
+                    *ngFor="let month of creditCardMonths"
+                    [value]="month"
+                  >
+                    {{ month }}
+                  </option>
+                </select>
+                <div
+                  class="text-danger"
+                  *ngIf="expirationMonth?.invalid && expirationMonth?.touched"
+                >
+                  <small *ngIf="expirationMonth?.errors?.['required']"
+                    >Expiration month is required</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Expiration Year *</label>
+                <select
+                  class="form-control custom-select"
+                  formControlName="expirationYear"
+                  [class.is-invalid]="
+                    expirationYear?.invalid && expirationYear?.touched
+                  "
+                  (change)="updateCreditCardMonths()"
+                >
+                  <option value="" disabled>YYYY</option>
+                  <option *ngFor="let year of creditCardYears" [value]="year">
+                    {{ year }}
+                  </option>
+                </select>
+                <div
+                  class="text-danger"
+                  *ngIf="expirationYear?.invalid && expirationYear?.touched"
+                >
+                  <small *ngIf="expirationYear?.errors?.['required']"
+                    >Expiration year is required</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ORDER SUMMARY -->
+          <div class="order-summary">
+            <h4 class="section-title">Order Summary</h4>
+
+            <div class="summary-row">
+              <span>Total Quantity:</span>
+              <strong>{{ totalQuantity || 0 }}</strong>
+            </div>
+
+            <div class="summary-row">
+              <span>Total Price:</span>
+              <strong>{{ totalPrice | currency: "USD" }}</strong>
+            </div>
+          </div>
+
+          <!-- SUBMIT BUTTON -->
+          <div class="btn-container">
+            <button
+              type="submit"
+              class="btn-submit"
+              [disabled]="checkoutFormGroup.invalid"
+            >
+              💳 Complete Purchase
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
