@@ -5,11 +5,11 @@ import { ProductCategoryMenu } from "./components/product-category-menu/product-
 import { Search } from "./components/search/search";
 import { CartStatus } from "./components/cart-status/cart-status";
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { CommonModule, CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ProductCategoryMenu, Search, CartStatus, ReactiveFormsModule,],
+  imports: [RouterOutlet, ProductCategoryMenu, Search, CartStatus, ReactiveFormsModule, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -1,5 +1,6 @@
 import { Address } from "./address";
 import { Customer } from "./customer";
+import { Order } from "./order";
 import { OrderItem } from "./order-item";
 
 export class Purchase {
@@ -8,4 +9,5 @@ export class Purchase {
   shippingAddress!: Address;
   billingAddress!: Address;
   orderItems!: OrderItem[];
+  order!: Order;
 }

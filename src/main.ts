@@ -10,10 +10,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartDetails } from './app/components/cart-details/cart-details';
 import { Checkout } from './app/components/checkout/checkout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Purchase } from './app/common/purchase';
 
 
 // Define routes
 const routes: Routes = [
+  {path: 'purchase', component: Purchase},
   {path:'checkout', component: Checkout},
   {path: 'cart-details', component: CartDetails},
   {path: 'products/:id', component: ProductDetails},

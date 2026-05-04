@@ -9,6 +9,7 @@ import { CheckoutService } from '../../services/checkout.service';
 import { Order } from '../../common/order';
 import { OrderItem } from '../../common/order-item';
 import { Purchase } from '../../common/purchase';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -32,12 +33,14 @@ export class Checkout implements OnInit {
   countries: Country[] = [];
   shippingStates: State[] = [];
   billingStates: State[] = [];
+  
 
   constructor(
     private formBuilder: FormBuilder,
     private ismaCart: IsmaCart,
     private cartService: CartService,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private router: Router
 
 
   ) { 
@@ -223,8 +226,36 @@ export class Checkout implements OnInit {
     const billingCountry: Country = JSON.parse(JSON.stringify(this.checkoutFormGroup.get('billingAddress.country')?.value));
     purchase.billingAddress.state = billingState.name;
     purchase.billingAddress.country = billingCountry.name;
-  }
 
+    // populate purchase orderItems from cartItems
+    purchase.order = order;
+    purchase.orderItems = orderItems;
+
+    // call REST API via CheckoutService to place order and subscribe to response
+    this.checkoutService.placeOrder(purchase).subscribe({
+      next: (response) => {
+        alert(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`);
+
+        // reset cart
+        this.resetCart();
+
+      },
+      error: (error) => {
+        console.error('Error placing order:', error.message);
+      }
+    });
+  }
+  resetCart() {
+    // reset cart data
+    this.cartService.cartItems = [];
+    this.cartService.totalPrice.next(0);
+    this.cartService.totalQuantity.next(0);
+    // reset the form
+    this.checkoutFormGroup.reset();
+      // navigate back to the products page or home page
+      this.router.navigateByUrl('/products');
+    }
+    
   copyShippingToBilling(event: any) {
     const shippingAddress = this.checkoutFormGroup.get('shippingAddress') as FormGroup;
     const billingAddress = this.checkoutFormGroup.get('billingAddress') as FormGroup;
