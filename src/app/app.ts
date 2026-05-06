@@ -6,10 +6,11 @@ import { Search } from "./components/search/search";
 import { CartStatus } from "./components/cart-status/cart-status";
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { LoginStatus } from "./components/login-status/login-status";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ProductCategoryMenu, Search, CartStatus, ReactiveFormsModule, CommonModule],
+  imports: [RouterOutlet, ProductCategoryMenu, Search, CartStatus, ReactiveFormsModule, CommonModule, LoginStatus],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

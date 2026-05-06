@@ -1,0 +1,53 @@
+/* Full page background */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* nice gradient background */
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+}
+
+/* Card */
+.login-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  width: 350px;
+  text-align: center;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Title */
+.login-card h2 {
+  margin-bottom: 10px;
+}
+
+/* Subtitle */
+.subtitle {
+  color: #777;
+  margin-bottom: 25px;
+}
+
+/* Button */
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+
+  font-weight: bold;
+  font-size: 16px;
+
+  background: linear-gradient(45deg, #4facfe, #00f2fe);
+  color: white;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  transform: scale(1.05);
+}

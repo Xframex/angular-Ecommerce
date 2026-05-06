@@ -1,4 +1,32 @@
-<!--div container for Okta login-->
-<div xlass="pt-5">
-  <div id="okta-sign-in-widget" class="pt-5"></div>
+<div class="login-page">
+  <div class="login-card">
+
+    <!-- Title -->
+    <h2>
+      {{ isAuthenticated ? ('Welcome, ' + userName) : 'Login' }}
+    </h2>
+
+    <!-- Optional subtitle -->
+    <p class="subtitle" *ngIf="!isAuthenticated">
+      Sign in to continue
+    </p>
+
+    <!-- Login button -->
+    <button 
+      *ngIf="!isAuthenticated"
+      class="login-btn"
+      (click)="login()">
+      Sign in with Okta
+    </button>
+
+    <!-- Logged in state -->
+    <div *ngIf="isAuthenticated" class="welcome-box">
+      <p>You are successfully logged in 🎉</p>
+
+      <button class="logout-btn" (click)="logout()">
+        Logout
+      </button>
+    </div>
+
+  </div>
 </div>

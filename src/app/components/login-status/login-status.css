@@ -1,0 +1,89 @@
+/* HEADER CONTAINER */
+.login-status-header {
+  width: 100%;
+  padding: 12px 40px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* FLEX LAYOUT */
+.login-status-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* USER TEXT */
+.login-status-user-info {
+  font-size: 15px;
+  color: #e2e8f0;
+  font-weight: 400;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+/* ACTION BUTTONS */
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* BASE BUTTON STYLE */
+.btn {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+/* LOGIN BUTTON (PRIMARY) */
+.login-btn {
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.45);
+}
+
+/* LOGOUT BUTTON (DANGER STYLE) */
+.logout-btn {
+  background: transparent;
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+}
+
+.logout-btn:hover {
+  background: rgba(248, 113, 113, 0.1);
+  transform: translateY(-2px);
+}
+
+/* OPTIONAL: SMOOTH FADE IN */
+.login-status-header,
+.btn {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
