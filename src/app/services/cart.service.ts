@@ -6,32 +6,39 @@ import { BehaviorSubject  } from 'rxjs';
   providedIn: 'root',
 })
 export class CartService {
-  decrementQuantity(theCartItem: CartItem) {
-    theCartItem.quantity--;
-  
-    if (theCartItem.quantity === 0) {
-      this.remove(theCartItem);
-    } else {
-      this.computeCartTotals();
-    }
-  }
-  remove(theCartItem: CartItem) {
-    const itemIndex = this.cartItems.findIndex(tempCartItem => tempCartItem.id === theCartItem.id);
-  
-    if (itemIndex > -1) {
-      this.cartItems.splice(itemIndex, 1);
-  
-      this.computeCartTotals();
-    }
-  }
-  
-  
-  constructor() {}
 
+  
   cartItems: CartItem[] = [];
 
   totalPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   totalQuantity: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+  // create a session to store the cart items on the browser
+  storage: Storage = sessionStorage;
+  
+  constructor() {
+
+    this.retrieveCartItems();
+  }
+
+  
+   
+ // read data from storage 
+ retrieveCartItems(): CartItem[] {
+  const storedData = this.storage.getItem('cartItems');
+
+  if (storedData) {
+    this.cartItems = JSON.parse(storedData);
+    this.computeCartTotals();
+  }
+
+  return this.cartItems;
+}
+
+  // store data in storage and compute cart totals
+  persistCartItems() {
+    this.storage.setItem('cartItems', JSON.stringify(this.cartItems));
+  }
 
 
   addToCart(theCartItem: CartItem) {
@@ -60,6 +67,7 @@ export class CartService {
     // compute cart total price and total quantity
     this.computeCartTotals();
     }
+
   computeCartTotals() {
 
     let totalPriceValue: number = 0;
@@ -76,6 +84,9 @@ export class CartService {
 
     // log cart data just for debugging purposes
     this.logCartData(totalPriceValue, totalQuantityValue);
+
+    // persist cart data
+    this.persistCartItems();
   }
 
   //log cart data on the console
@@ -88,6 +99,26 @@ export class CartService {
 
     console.log(`totalPrice: ${this.totalPrice}, totalQuantity: ${this.totalQuantity}`);
     console.log('----');
+  }
+
+    decrementQuantity(theCartItem: CartItem) {
+    theCartItem.quantity--;
+  
+    if (theCartItem.quantity === 0) {
+      this.remove(theCartItem);
+    } else {
+      this.computeCartTotals();
+    }
+  }
+
+  remove(theCartItem: CartItem) {
+    const itemIndex = this.cartItems.findIndex(tempCartItem => tempCartItem.id === theCartItem.id);
+  
+    if (itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1);
+  
+      this.computeCartTotals();
+    }
   }
   
   
