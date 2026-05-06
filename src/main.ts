@@ -18,9 +18,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 
 // Okta
-import { OktaCallbackComponent, OKTA_CONFIG, OktaAuthModule } from '@okta/okta-angular';
+import { OktaCallbackComponent, OKTA_CONFIG, OktaAuthModule, OktaAuthGuard } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';
 import myAppconfig from './app/config/my-app-config';
+import { MembersPage } from './app/components/members-page/members-page';
 
 // Okta config
 const oktaAuth = new OktaAuth(myAppconfig.oidc);
@@ -29,6 +30,15 @@ const oktaAuth = new OktaAuth(myAppconfig.oidc);
 const routes: Routes = [
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'login', component: Login },
+  
+  { path: 'members', component: MembersPage, canActivate:[OktaAuthGuard],
+    data: {
+      onAuthRequired: () => {
+        // Redirect the user to your custom login page
+        window.location.href = '/login';
+      }
+    }
+   },
 
   { path: 'checkout', component: Checkout },
   { path: 'cart-details', component: CartDetails },

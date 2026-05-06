@@ -25,4 +25,6 @@ isAuthenticated: any;
   login() {
     this.oktaAuth.signInWithRedirect();
   }
+
+  
 }
