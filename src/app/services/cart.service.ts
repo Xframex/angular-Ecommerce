@@ -14,7 +14,8 @@ export class CartService {
   totalQuantity: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   // create a session to store the cart items on the browser
-  storage: Storage = sessionStorage;
+  //storage: Storage = sessionStorage;
+  storage: Storage = localStorage;
   
   constructor() {
 

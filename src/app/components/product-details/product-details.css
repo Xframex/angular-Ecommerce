@@ -1,47 +1,213 @@
-/* Container */
+/* === CONTAINER === */
 .detail-section {
-  max-width: 1000px;
-  margin: auto;
-  padding: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  animation: fadeIn 0.5s ease;
 }
 
-/* Back button aligned properly */
-.btn-back {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === BACK BUTTON === */
+.btn-secondary {
+  background: #f1f5f9;
+  color: #475569 !important;
   border: none;
   padding: 12px 24px;
-  font-size: 16px;
+  border-radius: 12px;
   font-weight: 600;
-  border-radius: 50px;
-  cursor: pointer;
+  font-size: 0.875rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.btn-back:hover {
-  transform: translateX(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46a0 100%);
-}
-
-.btn-back:active {
-  transform: translateX(-2px);
-}
-/* Layout for product */
-.detail-content {
-  display: flex;
-  gap: 40px;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  text-decoration: none;
 }
 
-/* Image */
+.btn-secondary:hover {
+  background: #e2e8f0;
+  color: #1e293b !important;
+  transform: translateX(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary::before {
+  content: '\2190';
+  font-size: 1.1rem;
+}
+
+/* === DETAIL CONTENT LAYOUT === */
+.detail-content {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 48px;
+  align-items: start;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* === IMAGE === */
+.detail-image {
+  position: relative;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.detail-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.02) 100%);
+  border-radius: 20px;
+}
+
 .detail-image img {
-  width: 250px;
-  border-radius: 10px;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
 }
 
-/* Info */
+.detail-image:hover img {
+  transform: scale(1.08);
+}
+
+/* === INFO SECTION === */
 .detail-info {
-  flex: 1;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detail-info h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.detail-info p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #475569;
+  font-weight: 400;
+}
+
+.detail-info p strong {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* === PRICE === */
+.detail-info .price,
+.detail-info p:has(strong) {
+  font-size: 2.25rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 8px 0;
+}
+
+/* === ADD TO CART BUTTON === */
+.detail-info .btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  align-self: flex-start;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+.detail-info .btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.4);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.detail-info .btn-primary:active {
+  transform: translateY(-1px);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 992px) {
+  .detail-content {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 28px;
+  }
+  
+  .detail-image {
+    min-height: 300px;
+  }
+  
+  .detail-info h2 {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .detail-section {
+    padding: 16px 12px;
+  }
+  
+  .detail-content {
+    padding: 20px;
+    gap: 24px;
+  }
+  
+  .detail-image {
+    min-height: 250px;
+    padding: 20px;
+  }
+  
+  .detail-image img {
+    max-width: 250px;
+  }
+  
+  .detail-info h2 {
+    font-size: 1.5rem;
+  }
+  
+  .detail-info .btn-primary {
+    width: 100%;
+    text-align: center;
+    align-self: stretch;
+  }
 }

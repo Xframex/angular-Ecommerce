@@ -1,0 +1,77 @@
+/* === SEARCH FORM CONTAINER === */
+.form-header {
+  display: flex;
+  flex: 1;
+  max-width: 580px;
+  position: relative;
+}
+
+/* === SEARCH INPUT === */
+.au-input.au-input-xl {
+  flex: 1;
+  min-width: auto;
+  height: 48px;
+  padding: 0 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-right: none;
+  border-radius: 14px 0 0 14px;
+  font-size: 0.9375rem;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.au-input.au-input-xl::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.au-input.au-input-xl:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* === SEARCH BUTTON === */
+.au-btn-submit {
+  position: relative;
+  right: auto;
+  min-width: 110px;
+  height: 48px;
+  color: #ffffff;
+  border: none;
+  border-radius: 0 14px 14px 0 !important;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.au-btn-submit:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.au-btn-submit:active {
+  transform: scale(0.98);
+}
+
+.au-btn-submit i {
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .form-header {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .au-btn-submit {
+    min-width: 90px;
+    font-size: 0.875rem;
+  }
+}
