@@ -61,7 +61,7 @@ export class Checkout implements OnInit {
       customer: this.formBuilder.group({
         firstName: ['', [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]+')]],
         lastName: ['', [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]+')]],
-        email: ['', [Validators.required, Validators.email]],
+        email: [localStorage.getItem('email') || '', [Validators.required, Validators.email]],
       }),
 
       shippingAddress: this.formBuilder.group({

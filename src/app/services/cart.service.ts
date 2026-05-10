@@ -98,7 +98,7 @@ export class CartService {
       console.log(`name: ${tempCartItem.name}, quantity=${tempCartItem.quantity}, unitPrice=${tempCartItem.unitPrice}, subTotalPrice=${subTotalPrice}`);
     }
 
-    console.log(`totalPrice: ${this.totalPrice}, totalQuantity: ${this.totalQuantity}`);
+    console.log(`totalPrice: ${totalPriceValue}, totalQuantity: ${totalQuantityValue}`);
     console.log('----');
   }
 

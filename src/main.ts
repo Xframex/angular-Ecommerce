@@ -22,6 +22,7 @@ import { OktaCallbackComponent, OKTA_CONFIG, OktaAuthModule, OktaAuthGuard } fro
 import { OktaAuth } from '@okta/okta-auth-js';
 import myAppconfig from './app/config/my-app-config';
 import { MembersPage } from './app/components/members-page/members-page';
+import { OrderHistoryComponent } from './app/components/order-history/order-history';
 
 // Okta config
 const oktaAuth = new OktaAuth(myAppconfig.oidc);
@@ -40,6 +41,7 @@ const routes: Routes = [
     }
    },
 
+  {path: 'order-history', component: OrderHistoryComponent, canActivate:[OktaAuthGuard]},
   { path: 'checkout', component: Checkout },
   { path: 'cart-details', component: CartDetails },
   { path: 'products/:id', component: ProductDetails },
