@@ -227,7 +227,7 @@ export class Checkout implements OnInit {
     purchase.billingAddress.state = billingState.name;
     purchase.billingAddress.country = billingCountry.name;
 
-    // populate purchase orderItems from cartItems
+    // populate purchase orderItems from cartItems 
     purchase.order = order;
     purchase.orderItems = orderItems;
 
@@ -235,6 +235,7 @@ export class Checkout implements OnInit {
     this.checkoutService.placeOrder(purchase).subscribe({
       next: (response) => {
         alert(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`);
+        
 
         // reset cart
         this.resetCart();

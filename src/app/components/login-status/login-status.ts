@@ -14,7 +14,12 @@ import { RouterLink } from '@angular/router';
 export class LoginStatus implements OnInit {
 
   isAuthenticated = false;
+
   userFullName = '';
+  userEmail = '';
+
+  // reference to browser storage
+  storage: Storage = localStorage;
 
   constructor(
     private oktaState: OktaAuthStateService,
@@ -24,8 +29,25 @@ export class LoginStatus implements OnInit {
   ngOnInit(): void {
 
     this.oktaState.authState$.subscribe(authState => {
+
       this.isAuthenticated = authState?.isAuthenticated ?? false;
+
+      // get user name from Okta
       this.userFullName = authState?.idToken?.claims?.name ?? '';
+
+      // get email from Okta
+      this.userEmail = authState?.idToken?.claims?.email ?? '';
+
+      // store email in local storage
+      this.storage.setItem('email', this.userEmail);
+
+      // retrieve email from storage
+      const storedEmail = this.storage.getItem('email');
+
+      if (storedEmail) {
+        this.userEmail = storedEmail;
+      }
+
     });
 
   }
@@ -33,4 +55,4 @@ export class LoginStatus implements OnInit {
   logout() {
     this.oktaAuth.signOut();
   }
-}
+} 
