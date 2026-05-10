@@ -33,6 +33,8 @@ export class Checkout implements OnInit {
   countries: Country[] = [];
   shippingStates: State[] = [];
   billingStates: State[] = [];
+
+  storage: Storage = sessionStorage;
   
 
   constructor(
@@ -52,6 +54,11 @@ export class Checkout implements OnInit {
     this.initForm();
     this.initCreditCardData();
     this.loadCountries(); // ⬅ load first
+
+    // read email from browser storage
+    const theEmail = localStorage.getItem('email');
+    this.checkoutFormGroup.controls['customer'].patchValue({ email: theEmail });
+    
   }
 
   
@@ -61,7 +68,7 @@ export class Checkout implements OnInit {
       customer: this.formBuilder.group({
         firstName: ['', [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]+')]],
         lastName: ['', [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]+')]],
-        email: [localStorage.getItem('email') || '', [Validators.required, Validators.email]],
+        email: [sessionStorage.getItem('email') || '', [Validators.required, Validators.email]],
       }),
 
       shippingAddress: this.formBuilder.group({
