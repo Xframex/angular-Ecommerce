@@ -2,7 +2,7 @@
 
 import { bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Routes, provideRouter } from '@angular/router';
 import { importProvidersFrom } from '@angular/core';
 
@@ -12,6 +12,7 @@ import { ProductDetails } from './app/components/product-details/product-details
 import { CartDetails } from './app/components/cart-details/cart-details';
 import { Checkout } from './app/components/checkout/checkout';
 import { Login } from './app/components/login/login'; 
+import { AuthInterceptorService } from './app/services/auth-interceptor.service';
 
 // Modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -55,7 +56,7 @@ const routes: Routes = [
 
 bootstrapApplication(App, {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withInterceptorsFromDi()),
     provideRouter(routes),
 
     importProvidersFrom(
@@ -64,6 +65,8 @@ bootstrapApplication(App, {
       OktaAuthModule
     ),
 
-    { provide: OKTA_CONFIG, useValue: { oktaAuth } }
+    { provide: OKTA_CONFIG, useValue: { oktaAuth } },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ]
-});
+}).catch(err => console.error(err));
+
