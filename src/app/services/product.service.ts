@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Product } from '../common/product';
 import { ProductCategory } from '../common/product-category';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class ProductService {
  
 
 
-  private baseUrl = 'http://localhost:8080/api/products';
+  private baseUrl = environment.IsmaCartshopApiUrl + '/products';
    
 
 
@@ -51,7 +52,7 @@ export class ProductService {
 
   // method to fetch the product categories from the backend and return an Observable of ProductCategory array
    getProductCategories(): Observable<ProductCategory[]> {
-    return this.httpClient.get<GetResponseProductCategory>(`http://localhost:8080/api/product-category`).pipe(
+    return this.httpClient.get<GetResponseProductCategory>(environment.IsmaCartshopApiUrl + '/product-category').pipe(
       map(response => response._embedded.productCategory)
     );
   } 

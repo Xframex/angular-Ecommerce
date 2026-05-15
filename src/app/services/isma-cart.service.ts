@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { Country } from '../common/country';
 import { State } from '../common/state';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,8 @@ import { State } from '../common/state';
 export class IsmaCart {
 
   // REST API endpoints
-  private countriesUrl = 'http://localhost:8080/api/countries';
-  private statesUrl = 'http://localhost:8080/api/states';
+  private countriesUrl = environment.IsmaCartshopApiUrl + '/countries';
+  private statesUrl = environment.IsmaCartshopApiUrl + '/states';
 
   //inject HttpClient because we need it to call REST API endpoints
   constructor(
