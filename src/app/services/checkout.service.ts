@@ -9,13 +9,16 @@ import { environment } from '../../environments/environment';
 })
 export class CheckoutService {
 
-
   private readonly purchaseUrl = environment.IsmaCartshopApiUrl + '/checkout/purchase';
+  private readonly paymentIntentUrl = environment.IsmaCartshopApiUrl + '/checkout/create-payment-intent';
 
   constructor(private readonly http: HttpClient) { }
   
-  // Method to place an order by sending the purchase data to the backend API
   placeOrder(purchase: Purchase): Observable<any> {
     return this.http.post(this.purchaseUrl, purchase);
+  }
+
+  createPaymentIntent(amount: number, currency: string): Observable<any> {
+    return this.http.post(this.paymentIntentUrl, { amount, currency });
   }
 }

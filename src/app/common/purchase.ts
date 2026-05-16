@@ -10,4 +10,5 @@ export class Purchase {
   billingAddress!: Address;
   orderItems!: OrderItem[];
   order!: Order;
+  paymentIntentId?: string;
 }
