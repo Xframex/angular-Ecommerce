@@ -27,10 +27,7 @@
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
-           
-              
             ]
-
           },
           "configurations": {
             "production": {
@@ -48,6 +45,7 @@
               ],
               "outputHashing": "all"
             },
+
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -58,25 +56,47 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+
+            "qa": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
+              ]
             }
           },
+
           "defaultConfiguration": "production"
         },
+
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "angular-Ecommerce:build:production"
             },
+
             "development": {
               "buildTarget": "angular-Ecommerce:build:development"
+            },
+
+            "qa": {
+              "buildTarget": "angular-Ecommerce:build:qa"
             }
           },
+
           "defaultConfiguration": "development"
         },
+
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n"
         },
+
         "test": {
           "builder": "@angular/build:karma",
           "options": {
