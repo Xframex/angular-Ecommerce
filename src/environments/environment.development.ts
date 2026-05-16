@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    IsmaCartshopApiUrl: "https://localhost:8443/api"
+    IsmaCartshopApiUrl: "https://localhost:9898/api"
 };
